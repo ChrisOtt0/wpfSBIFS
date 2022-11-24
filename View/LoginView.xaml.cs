@@ -42,7 +42,7 @@ namespace wpfSBIFS.View
 
 
             //hard coded values for now
-            string hostName = "127.0.0.1";
+            string hostName = "localhost";
             int port = 8080;
 
 

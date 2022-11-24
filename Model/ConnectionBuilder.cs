@@ -31,8 +31,8 @@ namespace wpfSBIFS.Model
         public async Task<TcpClient> Connect()
         {
             //if no values, insert default
-            if (tcp == null) _hostName = "127.0.0.1";
-            if (_port == 0) _port = 8080;
+            if (_hostName.Equals("")) _hostName = "127.0.0.1";
+            if (_port == null) _port = 8080;
 
             //make new connection
             tcp = new TcpClient (_hostName, _port);

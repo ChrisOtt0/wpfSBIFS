@@ -2,25 +2,35 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Net.Http;
 using System.Net.NetworkInformation;
 using System.Net.Sockets;
 using System.Text;
+using System.Net.Http.Headers;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Diagnostics;
+using System.Net.Http.Json;
+using System.Xml.Linq;
+using System.Text.Json;
+using Newtonsoft.Json.Linq;
+using wpfSBIFS.Tools;
 
-namespace wpfSBIFS.Model
-{
+namespace wpfSBIFS.Model { 
+
     public class ServerConnectionAdapter
     {
-        
+    
         TcpClient _client;
         NetworkStream _ns;
         StreamReader _reader;
+        HttpClient client;
 
         string _HostName;
         int _Port;
+        string jwt;
 
-
+      
         public ServerConnectionAdapter(string HostName, int Port)
         {
             _HostName = HostName;
@@ -42,7 +52,8 @@ namespace wpfSBIFS.Model
             {
                 _client = await cb.Connect();
                 _ns = _client.GetStream();
-                _reader = new StreamReader(_ns);
+                _reader = new StreamReader(_ns, Encoding.UTF8);
+                client = new HttpClient();
             } 
             catch (Exception ex)
             {
@@ -57,35 +68,76 @@ namespace wpfSBIFS.Model
         {
 
             //error handling for if user or password is empty 
-            if (User.Equals("") || Password.Equals(""))
+            if (Util.CheckUsernamePassword(User, Password)) MessageBox.Show("Please enter username & password!");
+
+            //attaching user and password to login json 
+            IJson loginJson = new LoginJson
             {
-                MessageBox.Show("Please enter username");
+                Email = User,
+                Password = Password,
+            };
+
+            //making the login request
+            var response = await client.PostAsJsonAsync("https://localhost:8080/Api/Auth/Login", loginJson);
+
+            //defining the cariable statuscode which was extracted from the request response
+            var StatusCode = (Int32)response.StatusCode;
+
+            //Checking the statuscode for all kinds of error statuscodes
+            if (Util.CheckStatusCode(StatusCode) != "")
+            {
+                MessageBox.Show((Util.CheckStatusCode(StatusCode)));
                 return;
             }
 
+            //parsing the response text 
+            JObject json = JObject.Parse(response.Content.ToString());
 
-            //TODO: error handling
-            //          check if username and password are empty
+            //getting the jwt login token from response text
+            jwt = (string)json["jwt"];
 
-            //adding byte data for request
-            Byte[] data = System.Text.Encoding.ASCII.GetBytes("{"+$"\"email:\":\"{User}\",\"password\":\"{Password}\"" +"}");
-            _ns.Write(data,0,data.Length);
-            // Buffer to store the response bytes.
-            data = new Byte[256];
-            String responseData = String.Empty;
-            Int32 bytes = _ns.Read(data, 0, data.Length);
-            responseData = System.Text.Encoding.ASCII.GetString(data, 0, bytes);
-
-            //TODO: Get status code
-            if (responseData.Contains($"{User}")){
-                MessageBox.Show("Logged in successfully!");
-
-            } else if (responseData.Contains("Wrong"))
-            {
-                MessageBox.Show("Wrong username or password! \n");
-            }
 
         }
+        public async Task Register(string User, string Password)
+        {
+
+            //error handling for if user or password is empty 
+            if (Util.CheckUsernamePassword(User, Password)) MessageBox.Show("Please enter username & password!");
+
+            //attaching user and password to register json 
+            IJson registerJson = new RegisterJson
+            {
+                Email = User,
+                Password = Password,
+            };
+
+            //making the login request
+            var response = await client.PostAsJsonAsync("https://localhost:8080/Api/Auth/Register", registerJson);
+
+            //defining the cariable statuscode which was extracted from the request response
+            var StatusCode = (Int32)response.StatusCode;
+
+            //Checking the statuscode for all kinds of error statuscodes
+            if (Util.CheckStatusCode(StatusCode) != "")
+            {
+                MessageBox.Show((Util.CheckStatusCode(StatusCode)));
+                return;
+            }
+
+            //parsing the response text 
+            JObject json = JObject.Parse(response.Content.ToString());
+
+            //getting the jwt login token from response text
+            jwt = (string)json["jwt"];
+
+
+        }
+
+
+
+
+
+        
 
     }
 }
