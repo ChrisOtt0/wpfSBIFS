@@ -12,7 +12,6 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using wpfSBIFS.Model;
 using wpfSBIFS.ViewModel;
 
 namespace wpfSBIFS.View
@@ -30,25 +29,8 @@ namespace wpfSBIFS.View
 
             // Set viewmodel received from DI as binding context
             loginViewModel = viewModel;
+            loginViewModel.PasswordBox = pbPassword;
             this.DataContext = viewModel;
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-            //get login data from the ui
-            string userName = tbUserName.Text;
-            string passWord = pbPassword.Password;
-
-
-            //hard coded values for now
-            string hostName = "localhost";
-            int port = 8080;
-
-
-            ServerConnectionAdapter sva = new ServerConnectionAdapter(hostName, port);
-            sva.Login(userName, passWord);
-
         }
     }
 }

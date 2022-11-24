@@ -71,12 +71,23 @@
     <!-- Login label style -->
     <Style TargetType="Label" x:Key="login_label">
         <Setter Property="Foreground" Value="{StaticResource fg}"/>
-        <Setter Property="HorizontalAlignment" Value="Right"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0, 0, 10, 0"/>
         <Setter Property="FontFamily" Value="Droid Sans"/>
         <Setter Property="FontSize" Value="15"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
+    </Style>
+    
+    <!-- Login feedback label style -->
+    <Style TargetType="Label" x:Key="login_feedback_label">
+        <Setter Property="Foreground" Value="{StaticResource fg}"/>
+        <Setter Property="HorizontalAlignment" Value="Center"/>
+        <Setter Property="VerticalAlignment" Value="Top"/>
+        <Setter Property="Margin" Value="5"/>
+        <Setter Property="FontFamily" Value="Droid Sans"/>
+        <Setter Property="FontSize" Value="12"/>
+        <Setter Property="FontWeight" Value="Medium"/>
     </Style>
 
     <!-- Login TextBox -->

@@ -44,31 +44,31 @@
                 <!-- Username container -->
                 <Grid 
                     Grid.Row="1"
-                    Margin="60, 0">
+                    Margin="40, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
                     <Label
                         Grid.Column="0"
-                        Content="Username:"
+                        Content="Email:"
                         Style="{StaticResource login_label}"/>
 
                     <TextBox
-                        x:Name="tbUserName"
                         Grid.Column="1"
-                        Style="{StaticResource login_textbox}">
+                        Style="{StaticResource login_textbox}"
+                        Text="{Binding LoginFormEmail}">
                     </TextBox>
                 </Grid>
                 
                 <!-- Password container -->
                 <Grid 
                     Grid.Row="2"
-                    Margin="60, 0">
+                    Margin="40, 0">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition/>
-                        <ColumnDefinition Width="1.5*"/>
+                        <ColumnDefinition Width="2*"/>
                     </Grid.ColumnDefinitions>
 
                     <Label
@@ -83,7 +83,15 @@
                 <Grid Grid.Row="3">
                     <Button
                         Style="{StaticResource base_button}"
-                        Content="Login" Click="Button_Click"/>
+                        Content="Login"
+                        Command="{Binding LoginCommand}"/>
+                </Grid>
+                
+                <!-- Feedback container -->
+                <Grid Grid.Row="4">
+                    <Label
+                        Style="{StaticResource login_feedback_label}"
+                        Content="{Binding FeedbackLabel}"/>
                 </Grid>
             </Grid>
         </Border>
