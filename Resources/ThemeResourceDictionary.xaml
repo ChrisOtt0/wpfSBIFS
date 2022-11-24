@@ -75,7 +75,7 @@
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="Margin" Value="0, 0, 10, 0"/>
         <Setter Property="FontFamily" Value="Droid Sans"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
     </Style>
     
@@ -93,13 +93,13 @@
     <!-- Login TextBox -->
     <Style TargetType="TextBox" x:Key="login_textbox">
         <Setter Property="VerticalContentAlignment" Value="Bottom"/>
-        <Setter Property="Padding" Value="10, 0, 10, 2"/>
-        <Setter Property="Margin" Value="0, 10, 20, 12"/>
+        <Setter Property="Padding" Value="2, 0, 2, 0"/>
+        <Setter Property="Margin" Value="0, 10, 20, 10"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{StaticResource fg}"/>
         <Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
         <Setter Property="FontFamily" Value="Droid Sans"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource fg}"/>
         <Setter Property="Template">
@@ -137,13 +137,13 @@
     <!-- Login Passwordbox -->
     <Style TargetType="PasswordBox">
         <Setter Property="VerticalContentAlignment" Value="Bottom"/>
-        <Setter Property="Padding" Value="10, 0, 10, 5"/>
-        <Setter Property="Margin" Value="0, 10, 20, 12"/>
+        <Setter Property="Padding" Value="2, 0, 2, 0"/>
+        <Setter Property="Margin" Value="0, 10, 20, 10"/>
         <Setter Property="Background" Value="Transparent"/>
         <Setter Property="BorderBrush" Value="{StaticResource fg}"/>
         <Setter Property="BorderThickness" Value="0, 0, 0, 2"/>
         <Setter Property="FontFamily" Value="Droid Sans"/>
-        <Setter Property="FontSize" Value="15"/>
+        <Setter Property="FontSize" Value="12"/>
         <Setter Property="FontWeight" Value="DemiBold"/>
         <Setter Property="Foreground" Value="{StaticResource fg}"/>
         <Setter Property="Template">

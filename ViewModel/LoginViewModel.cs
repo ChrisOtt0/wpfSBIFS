@@ -9,10 +9,12 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
+using Unity;
 using wpfSBIFS.DataTransferObjects;
 using wpfSBIFS.Services.HttpService;
 using wpfSBIFS.Services.TokenService;
 using wpfSBIFS.Tools;
+using wpfSBIFS.View;
 
 namespace wpfSBIFS.ViewModel
 {
@@ -52,19 +54,32 @@ namespace wpfSBIFS.ViewModel
             }
         }
 
-        public PasswordBox PasswordBox { get; set; }
+        public PasswordBox? PasswordBox { get; set; }
 
         public Command LoginCommand { get; set; }
 
         public async Task Login()
         {
+            FeedbackLabel = "Connecting...";
             string url = "Login";
+
+            if (LoginFormEmail == "" || LoginFormEmail == string.Empty)
+            {
+                FeedbackLabel = "Please enter an email.";
+                return;
+            }
+
+            if (PasswordBox.Password == "" || PasswordBox.Password == string.Empty)
+            {
+                FeedbackLabel = "No password given.";
+                return;
+            }
+
             IJson data = new UserLoginDto
             {
                 Email = LoginFormEmail,
                 Password = PasswordBox.Password,
             };
-
             HttpResponseMessage response = await _httpService.Post(baseUrl + url, data);
 
             switch( (int) response.StatusCode )
@@ -73,6 +88,8 @@ namespace wpfSBIFS.ViewModel
                 case 200:
                     TokenDto json = await response.Content.ReadFromJsonAsync<TokenDto>();
                     _tokenService.Jwt = json.Jwt;
+
+                    ((App)App.Current).ChangeUserControl(App.container.Resolve<GroupView>());
                     break;
 
                 // BadRequest
