@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Extensions.DependencyInjection;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -7,6 +8,8 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Unity;
+using wpfSBIFS.Services.HttpService;
+using wpfSBIFS.Services.TokenService;
 using wpfSBIFS.ViewModel;
 
 namespace wpfSBIFS
@@ -16,7 +19,7 @@ namespace wpfSBIFS
     /// </summary>
     public partial class App : Application
     {
-        // UnityContainer - DI for ViewModel first
+        // UnityContainer - DI
         public static IUnityContainer container = new UnityContainer();
 
         // Reference to main windows content control
@@ -24,13 +27,22 @@ namespace wpfSBIFS
 
         public App()
         {
-            container.RegisterType<ILoginViewModel, LoginViewModel>();
+            ConfigureServices();
         }
 
         // Method to change view
         public void ChangeUserControl(UserControl view)
         {
             this.ccRef.Content = view;
+        }
+
+        // Configure DI service provider
+        private void ConfigureServices()
+        {
+            container.RegisterType<ILoginViewModel, LoginViewModel>();
+            container.RegisterSingleton<IGroupViewModel, GroupViewModel>();
+            container.RegisterSingleton<IHttpService, HttpService>();
+            container.RegisterSingleton<ITokenService, TokenService>();
         }
     }
 }

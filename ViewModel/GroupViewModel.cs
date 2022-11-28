@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
+using wpfSBIFS.Tools;
 
 namespace wpfSBIFS.ViewModel
 {
-    public interface ILoginViewModel
+    public class GroupViewModel : Bindable, IGroupViewModel
     {
-        public PasswordBox PasswordBox { get; set; }
+
     }
 }

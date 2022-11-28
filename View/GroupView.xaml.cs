@@ -17,20 +17,17 @@ using wpfSBIFS.ViewModel;
 namespace wpfSBIFS.View
 {
     /// <summary>
-    /// Interaction logic for LoginView.xaml
+    /// Interaction logic for GroupView.xaml
     /// </summary>
-    public partial class LoginView : UserControl
+    public partial class GroupView : UserControl
     {
-        ILoginViewModel _loginViewModel;
+        private readonly IGroupViewModel _groupViewModel;
 
-        public LoginView(ILoginViewModel viewModel)
+        public GroupView(IGroupViewModel groupViewModel)
         {
             InitializeComponent();
-
-            // Set viewmodel received from DI as binding context
-            _loginViewModel = viewModel;
-            _loginViewModel.PasswordBox = pbPassword;
-            this.DataContext = viewModel;
+            _groupViewModel = groupViewModel;
+            this.DataContext = _groupViewModel;
         }
     }
 }
