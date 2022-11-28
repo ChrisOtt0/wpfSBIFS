@@ -17,13 +17,13 @@ using wpfSBIFS.ViewModel;
 namespace wpfSBIFS.View
 {
     /// <summary>
-    /// Interaction logic for GroupView.xaml
+    /// Interaction logic for AccountView.xaml
     /// </summary>
-    public partial class GroupView : UserControl
+    public partial class AccountView : UserControl
     {
-        private readonly IGroupViewModel _viewModel;
+        private readonly IAccountViewModel _viewModel;
 
-        public GroupView(IGroupViewModel viewModel)
+        public AccountView(IAccountViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;

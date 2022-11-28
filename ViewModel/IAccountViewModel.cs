@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpfSBIFS.Services.TokenService
+namespace wpfSBIFS.ViewModel
 {
-    public interface ITokenService
+    public interface IAccountViewModel
     {
     }
 }

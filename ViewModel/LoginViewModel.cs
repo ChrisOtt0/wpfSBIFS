@@ -89,7 +89,7 @@ namespace wpfSBIFS.ViewModel
                     TokenDto json = await response.Content.ReadFromJsonAsync<TokenDto>();
                     _tokenService.Jwt = json.Jwt;
 
-                    ((App)App.Current).ChangeUserControl(App.container.Resolve<GroupView>());
+                    ((App)App.Current).ChangeUserControl(App.container.Resolve<NavMenuView>());
                     break;
 
                 // BadRequest

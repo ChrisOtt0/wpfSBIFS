@@ -9,17 +9,26 @@ using wpfSBIFS.Tools;
 
 namespace wpfSBIFS.ViewModel
 {
-    public class GroupViewModel : Bindable, IGroupViewModel
+    public class AccountViewModel : Bindable, IAccountViewModel
     {
         private readonly HttpService _httpService;
         private readonly TokenService _tokenService;
 
-        public GroupViewModel(HttpService httpService, TokenService tokenService)
+        private string name = string.Empty;
+        private string email = string.Empty;
+
+        public Command SaveChanges { get; set; }
+
+        public AccountViewModel(HttpService httpService, TokenService tokenService)
         {
             _httpService = httpService;
             _tokenService = tokenService;
+            SaveChanges = new Command(SaveChangesCommand);
         }
 
+        private async Task SaveChangesCommand()
+        {
 
+        }
     }
 }

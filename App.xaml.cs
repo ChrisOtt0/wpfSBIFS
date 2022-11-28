@@ -40,9 +40,12 @@ namespace wpfSBIFS
         private void ConfigureServices()
         {
             container.RegisterType<ILoginViewModel, LoginViewModel>();
+            container.RegisterSingleton<INavMenuViewModel, NavMenuViewModel>();
+            container.RegisterSingleton<IAccountViewModel, AccountViewModel>();
             container.RegisterSingleton<IGroupViewModel, GroupViewModel>();
             container.RegisterSingleton<IHttpService, HttpService>();
             container.RegisterSingleton<ITokenService, TokenService>();
+            
         }
     }
 }
