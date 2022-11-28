@@ -9,8 +9,14 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
-            <RowDefinition Height="4*"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
         </Grid.RowDefinitions>
+
+        <Label
+            Content="Account Settings"
+            Grid.Row="0"/>
 
         <Grid
             Grid.Row="1">
@@ -22,7 +28,96 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+
+            <!-- Name Section -->
+            <Label
+                Content="Name"
+                Grid.Row="0"
+                Grid.Column="0"/>
+
+            <TextBox
+                Grid.Row="0"
+                Grid.Column="1"
+                Text="{Binding AccountName}"/>
+            
+            <!-- Email Section -->
+            <Label
+                Content="Email"
+                Grid.Row="1"
+                Grid.Column="0"/>
+
+            <TextBox
+                Grid.Row="1"
+                Grid.Column="1"
+                Text="{Binding AccountEmail}"/>
+            
+            <!-- Save Changes Part -->
+            <Button
+                Content="Save Changes"
+                Grid.Row="2"
+                Grid.Column="1"
+                Command="{Binding SaveChanges}"/>
+        </Grid>
+
+        <Label
+            Content="Password Settings"
+            Grid.Row="2"/>
+
+        <Grid
+            Grid.Row="3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="2*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Old Password -->
+            <Label
+                Content="Old Password:"
+                Grid.Row="0"
+                Grid.Column="0"/>
+
+            <PasswordBox
+                x:Name="oldPassword"
+                Grid.Row="0"
+                Grid.Column="1"/>
+
+            <!-- New Password -->
+            <Label
+                Content="New Password:"
+                Grid.Row="1"
+                Grid.Column="0"/>
+
+            <PasswordBox
+                x:Name="newPassword"
+                Grid.Row="1"
+                Grid.Column="1"/>
+
+            <!-- New Password Again -->
+            <Label
+                Content="New Password Again:"
+                Grid.Row="2"
+                Grid.Column="0"/>
+
+            <PasswordBox
+                x:Name="newPasswordAgain"
+                Grid.Row="2"
+                Grid.Column="1"/>
+            
+            <!-- Save Password Changes -->
+            <Button
+                Content="Update Password"
+                Grid.Row="3"
+                Grid.Column="1"
+                Command="{Binding UpdatePassword}"/>
         </Grid>
     </Grid>
 </UserControl>

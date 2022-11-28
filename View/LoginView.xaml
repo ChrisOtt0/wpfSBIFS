@@ -76,7 +76,10 @@
                         Content="Password:"
                         Style="{StaticResource login_label}"/>
 
-                    <PasswordBox Grid.Column="1" x:Name="pbPassword"/>
+                    <PasswordBox 
+                        Grid.Column="1" 
+                        x:Name="pbPassword"
+                        Style="{StaticResource login_passwordbox}"/>
                 </Grid>
                 
                 <!-- Button container -->

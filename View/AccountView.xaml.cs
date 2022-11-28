@@ -27,6 +27,9 @@ namespace wpfSBIFS.View
         {
             InitializeComponent();
             _viewModel = viewModel;
+            _viewModel.OldPasswordBox = this.oldPassword;
+            _viewModel.NewPasswordBox = this.newPassword;
+            _viewModel.NewPasswordAgainBox = this.newPasswordAgain;
             this.DataContext = _viewModel;
         }
     }

@@ -135,7 +135,7 @@
     </Style>
 
     <!-- Login Passwordbox -->
-    <Style TargetType="PasswordBox">
+    <Style TargetType="PasswordBox" x:Key="login_passwordbox">
         <Setter Property="VerticalContentAlignment" Value="Bottom"/>
         <Setter Property="Padding" Value="2, 0, 2, 0"/>
         <Setter Property="Margin" Value="0, 10, 20, 10"/>
