@@ -34,7 +34,7 @@ namespace wpfSBIFS.Services.HttpService
             return await client.SendAsync(request);
         }
 
-        public async Task<HttpResponseMessage> Put(string url, IJson data)
+        public async Task<HttpResponseMessage> Put(string url, string data)
         {
             var request = new HttpRequestMessage()
             {
