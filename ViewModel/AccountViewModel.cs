@@ -17,10 +17,11 @@ namespace wpfSBIFS.ViewModel
     {
         private readonly HttpService _httpService;
         private readonly TokenService _tokenService;
+        
 
         private string name = string.Empty;
         private string email = string.Empty;
-
+        private string baseUrl = "https://localhost:7120/api/Account";
         private Command SaveChanges { get; set; }
         private Command UpdatePassword { get; set; }
         public PasswordBox OldPasswordBox { get; set; }
@@ -54,35 +55,39 @@ namespace wpfSBIFS.ViewModel
             SaveChanges = new Command(SaveChangesCommand);
             UpdatePassword = new Command(UpdatePasswordCommand);
         }
-
         private async Task SaveChangesCommand()
-        {
-            var response = await _httpService.Put("api/account", new
-            {
-                name = AccountName,
-                email = AccountEmail
-            });
-            MessageBox.Show(response.IsSuccessStatusCode ? "Account updated" : "Failed to update account");
+        { 
+            string baseUrl = "https://localhost:7120/api/UpdateUser";
+            var result = await _httpService.Put(baseUrl, new { Name = AccountName, Email = AccountEmail }.ToString());
+           
+            MessageBox.Show(result.IsSuccessStatusCode ? "Account updated successfully" : "Account update failed");
+            
         }
 
         private async Task UpdatePasswordCommand()
         {
-            var response = await _httpService.Put("api/account/update/password", new
+            if (OldPasswordBox.Password == string.Empty || NewPasswordBox.Password == string.Empty || NewPasswordAgainBox.Password == string.Empty)
             {
-                oldPassword = OldPasswordBox.Password,
-                newPassword = NewPasswordBox.Password,
-                newPasswordAgain = NewPasswordAgainBox.Password
-            }, _tokenService.Jwt);
-
-            MessageBox.Show(response.IsSuccessStatusCode ? "Password updated" : "Failed to update password");
+                MessageBox.Show("Please fill in all fields"); //Replace with trigger message to the right of the field or something like that
+            }
+            else if (NewPasswordBox.Password != NewPasswordAgainBox.Password)
+            {
+                MessageBox.Show("New passwords do not match"); //Again message which displays to the right of the field or something like that
+            }
+            else
+            {
+                var response = await _httpService.Put("api/account/password", new { oldPassword = OldPasswordBox.Password, newPassword = NewPasswordBox.Password }.ToString());
+                
+                MessageBox.Show(response.IsSuccessStatusCode ? "Password updated" : "Failed to update password"); 
+            }
         }
     }
 }
-            /*private async Task UpdatePasswordCommand()
-        {
-        Checking if the old password is the same as the current password and if the new password is the same as the
-        new password again. If both are true, it will change the current password. 
-         if (OldPasswordBox.Password == _tokenService.Jwt && NewPasswordBox.Password == NewPasswordAgainBox.Password)
-         {
-             _tokenService.Jwt = NewPasswordBox.Password;
-         }*/
+/*private async Task UpdatePasswordCommand()
+{
+Checking if the old password is the same as the current password and if the new password is the same as the
+new password again. If both are true, it will change the current password. 
+ if (OldPasswordBox.Password == _tokenService.Jwt && NewPasswordBox.Password == NewPasswordAgainBox.Password)
+ {
+     _tokenService.Jwt = NewPasswordBox.Password;
+ }*/
