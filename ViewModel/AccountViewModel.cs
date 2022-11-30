@@ -60,10 +60,6 @@ namespace wpfSBIFS.ViewModel
             IJson data = new UserDto() {Name = AccountName, Email = AccountEmail};
             var result = await _httpService.Put(baseUrl + url, data );
             string message = result.IsSuccessStatusCode ? "Changes saved" : "Something went wrong";
-            message += $"\n{result.StatusCode}";
-            message += $"\n{await result.Content.ReadAsStringAsync()}";
-                MessageBox.Show(message);
-            
         }
 
         private async Task UpdatePasswordCommand() 
@@ -82,16 +78,8 @@ namespace wpfSBIFS.ViewModel
                 IJson data = new PasswordDto() {OldPassword = OldPasswordBox.Password, NewPassword = NewPasswordBox.Password};
                 var response = await _httpService.Put(baseUrl + url, data);
                 
-                MessageBox.Show(response.IsSuccessStatusCode ? "Password updated" : "Failed to update password"); 
+                MessageBox.Show(response.IsSuccessStatusCode ? "Password updated" : "Failed to update password"); //Again message which displays to the right of the field or something like that
             }
         }
     }
 }
-/*private async Task UpdatePasswordCommand()
-{
-Checking if the old password is the same as the current password and if the new password is the same as the
-new password again. If both are true, it will change the current password. 
- if (OldPasswordBox.Password == _tokenService.Jwt && NewPasswordBox.Password == NewPasswordAgainBox.Password)
- {
-     _tokenService.Jwt = NewPasswordBox.Password;
- }*/
