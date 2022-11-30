@@ -20,14 +20,14 @@ namespace wpfSBIFS.ViewModel
 {
     public class LoginViewModel : Bindable, ILoginViewModel
     {
-        private readonly HttpService _httpService;
-        private readonly TokenService _tokenService;
         string baseUrl = "UserLogin/";
 
         public string loginFormEmail = string.Empty;
         public string feedbackLabel = string.Empty;
+        private readonly IHttpService _httpService;
+        private readonly ITokenService _tokenService;
 
-        public LoginViewModel(HttpService httpService, TokenService tokenService)
+        public LoginViewModel(IHttpService httpService, ITokenService tokenService)
         {
             LoginCommand = new Command(Login);
             _httpService = httpService;
@@ -88,8 +88,6 @@ namespace wpfSBIFS.ViewModel
                 case 200:
                     TokenDto json = await response.Content.ReadFromJsonAsync<TokenDto>();
                     _tokenService.Jwt = json.Jwt;
-                    _httpService.AddAuthentication(_tokenService.Jwt);
-
                     _httpService.AddAuthentication(_tokenService.Jwt);
 
                     ((App)App.Current).ChangeUserControl(App.container.Resolve<NavMenuView>());

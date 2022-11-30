@@ -8,5 +8,6 @@ namespace wpfSBIFS.Services.TokenService
 {
     public interface ITokenService
     {
+        public string Jwt { get; set; }
     }
 }
