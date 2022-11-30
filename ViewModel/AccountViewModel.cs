@@ -16,20 +16,18 @@ namespace wpfSBIFS.ViewModel
 {
     public class AccountViewModel : Bindable, IAccountViewModel
     {
-        private readonly HttpService _httpService;
-        private readonly TokenService _tokenService;
-        
-
         private string name = string.Empty;
         private string email = string.Empty;
         private string baseUrl = "User/";
+        private readonly IHttpService _httpService;
+
         public Command SaveChanges { get; set; }
         public Command UpdatePassword { get; set; }
         public PasswordBox OldPasswordBox { get; set; }
         public PasswordBox NewPasswordBox { get; set; }
         public PasswordBox NewPasswordAgainBox { get; set; }
 
-        private string AccountName
+        public string AccountName
         {
             get => name;
             set
@@ -39,7 +37,7 @@ namespace wpfSBIFS.ViewModel
             }
         }
 
-        private string AccountEmail
+        public string AccountEmail
         {
             get => email;
             set
@@ -49,12 +47,11 @@ namespace wpfSBIFS.ViewModel
             }
         }
 
-        public AccountViewModel(HttpService httpService, TokenService tokenService)
+        public AccountViewModel(IHttpService httpService)
         {
-            _httpService = httpService;
-            _tokenService = tokenService;
             SaveChanges = new Command(SaveChangesCommand);
             UpdatePassword = new Command(UpdatePasswordCommand);
+            _httpService = httpService;
         }
 
         private async Task SaveChangesCommand()
