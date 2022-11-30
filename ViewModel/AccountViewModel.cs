@@ -23,8 +23,8 @@ namespace wpfSBIFS.ViewModel
         private string name = string.Empty;
         private string email = string.Empty;
         private string baseUrl = "User/";
-        private Command SaveChanges { get; set; }
-        private Command UpdatePassword { get; set; }
+        public Command SaveChanges { get; set; }
+        public Command UpdatePassword { get; set; }
         public PasswordBox OldPasswordBox { get; set; }
         public PasswordBox NewPasswordBox { get; set; }
         public PasswordBox NewPasswordAgainBox { get; set; }
@@ -62,8 +62,10 @@ namespace wpfSBIFS.ViewModel
             string url = "UpdateUser";
             IJson data = new UserDto() {Name = AccountName, Email = AccountEmail};
             var result = await _httpService.Put(baseUrl + url, data );
-
-                MessageBox.Show(result.IsSuccessStatusCode ? "Account updated successfully" : "Account update failed");
+            string message = result.IsSuccessStatusCode ? "Changes saved" : "Something went wrong";
+            message += $"\n{result.StatusCode}";
+            message += $"\n{await result.Content.ReadAsStringAsync()}";
+                MessageBox.Show(message);
             
         }
 

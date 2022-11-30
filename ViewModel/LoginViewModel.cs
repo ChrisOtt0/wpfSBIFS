@@ -88,6 +88,7 @@ namespace wpfSBIFS.ViewModel
                 case 200:
                     TokenDto json = await response.Content.ReadFromJsonAsync<TokenDto>();
                     _tokenService.Jwt = json.Jwt;
+                    _httpService.AddAuthentication(_tokenService.Jwt);
 
                     ((App)App.Current).ChangeUserControl(App.container.Resolve<NavMenuView>());
                     break;
