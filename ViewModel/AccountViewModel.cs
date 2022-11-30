@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using Unity.Injection;
+using wpfSBIFS.DataTransferObjects;
 using wpfSBIFS.Services.HttpService;
 using wpfSBIFS.Services.TokenService;
 using wpfSBIFS.Tools;
@@ -21,7 +22,7 @@ namespace wpfSBIFS.ViewModel
 
         private string name = string.Empty;
         private string email = string.Empty;
-        private string baseUrl = "https://localhost:7120/api/Account";
+        private string baseUrl = "User/";
         private Command SaveChanges { get; set; }
         private Command UpdatePassword { get; set; }
         public PasswordBox OldPasswordBox { get; set; }
@@ -55,17 +56,20 @@ namespace wpfSBIFS.ViewModel
             SaveChanges = new Command(SaveChangesCommand);
             UpdatePassword = new Command(UpdatePasswordCommand);
         }
+
         private async Task SaveChangesCommand()
-        { 
-            string baseUrl = "https://localhost:7120/api/UpdateUser";
-            var result = await _httpService.Put(baseUrl, new { Name = AccountName, Email = AccountEmail }.ToString());
-           
-            MessageBox.Show(result.IsSuccessStatusCode ? "Account updated successfully" : "Account update failed");
+        {
+            string url = "UpdateUser";
+            IJson data = new UserDto() {Name = AccountName, Email = AccountEmail};
+            var result = await _httpService.Put(baseUrl + url, data );
+
+                MessageBox.Show(result.IsSuccessStatusCode ? "Account updated successfully" : "Account update failed");
             
         }
 
-        private async Task UpdatePasswordCommand()
+        private async Task UpdatePasswordCommand() 
         {
+            string url = "UpdatePassword";
             if (OldPasswordBox.Password == string.Empty || NewPasswordBox.Password == string.Empty || NewPasswordAgainBox.Password == string.Empty)
             {
                 MessageBox.Show("Please fill in all fields"); //Replace with trigger message to the right of the field or something like that
@@ -76,7 +80,8 @@ namespace wpfSBIFS.ViewModel
             }
             else
             {
-                var response = await _httpService.Put("api/account/password", new { oldPassword = OldPasswordBox.Password, newPassword = NewPasswordBox.Password }.ToString());
+                IJson data = new PasswordDto() {OldPassword = OldPasswordBox.Password, NewPassword = NewPasswordBox.Password};
+                var response = await _httpService.Put(baseUrl + url, data);
                 
                 MessageBox.Show(response.IsSuccessStatusCode ? "Password updated" : "Failed to update password"); 
             }
