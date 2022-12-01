@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace wpfSBIFS.Services.TokenService
 {
-    internal interface ITokenService
+    public interface ITokenService
     {
+        public string Jwt { get; set; }
     }
 }
