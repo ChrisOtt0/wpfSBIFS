@@ -3,12 +3,14 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Net.Http.Headers;
 using System.Net.Http.Json;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using wpfSBIFS.DataTransferObjects;
 using wpfSBIFS.Extensions;
+using wpfSBIFS.Services.TokenService;
 
 namespace wpfSBIFS.Services.HttpService
 {
@@ -16,6 +18,12 @@ namespace wpfSBIFS.Services.HttpService
     {
         HttpClient client = new HttpClient();
         string baseUrl = "https://localhost:7120/api/";
+        private readonly ITokenService _tokenService;
+
+        public HttpService(ITokenService tokenService)
+        {
+            _tokenService = tokenService;
+        }
 
         public async Task<HttpResponseMessage> Get(string url)
         {
@@ -48,6 +56,11 @@ namespace wpfSBIFS.Services.HttpService
         public async Task<HttpResponseMessage> Delete(string url, IJson data)
         {
             return await HttpClientExtension.DeleteAsJsonAsync(client, baseUrl + url, data);
+        }
+
+        public void AddAuthentication(string jwt)
+        {
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", jwt.Replace("\"", ""));
         }
     }
 }
