@@ -9,8 +9,13 @@ namespace wpfSBIFS.ViewModel
 {
     public interface IAccountViewModel
     {
+        public string UserFeedback { get; set; }
+        public string PasswordFeedback { get; set; }
+
         public PasswordBox OldPasswordBox { get; set; }
         public PasswordBox NewPasswordBox { get; set; }
         public PasswordBox NewPasswordAgainBox { get; set; }
+
+        public void OnInitAsync();
     }
 }

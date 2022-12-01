@@ -11,13 +11,13 @@ namespace wpfSBIFS.ViewModel
 {
     public class GroupViewModel : Bindable, IGroupViewModel
     {
-        private readonly HttpService _httpService;
-        private readonly TokenService _tokenService;
+        private readonly IHttpService _http;
+        private readonly ITokenService _token;
 
-        public GroupViewModel(HttpService httpService, TokenService tokenService)
+        public GroupViewModel(IHttpService http, ITokenService token)
         {
-            _httpService = httpService;
-            _tokenService = tokenService;
+            _http = http;
+            _token = token;
         }
 
 

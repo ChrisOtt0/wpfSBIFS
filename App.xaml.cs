@@ -43,7 +43,7 @@ namespace wpfSBIFS
             container.RegisterSingleton<IHttpService, HttpService>();
             container.RegisterType<ILoginViewModel, LoginViewModel>();
             container.RegisterSingleton<INavMenuViewModel, NavMenuViewModel>();
-            container.RegisterSingleton<IAccountViewModel, AccountViewModel>();
+            container.RegisterType<IAccountViewModel, AccountViewModel>();
             container.RegisterSingleton<IGroupViewModel, GroupViewModel>();
             
         }

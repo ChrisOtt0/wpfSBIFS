@@ -28,8 +28,8 @@ namespace wpfSBIFS.View
             InitializeComponent();
             _viewModel = viewModel;
             _viewModel.NavMenuPanel = this.navMenuPanel;
-            _viewModel.SetHome(new HomeView());
             this.DataContext = _viewModel;
+            _viewModel.SetHome();
         }
     }
 }

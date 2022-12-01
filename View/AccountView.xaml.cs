@@ -31,6 +31,7 @@ namespace wpfSBIFS.View
             _viewModel.NewPasswordBox = this.newPassword;
             _viewModel.NewPasswordAgainBox = this.newPasswordAgain;
             this.DataContext = _viewModel;
+            _viewModel.OnInitAsync();
         }
     }
 }

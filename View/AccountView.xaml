@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:wpfSBIFS.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <Grid>
+    <Grid Style="{StaticResource main_grid}">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="2*"/>
@@ -40,7 +40,7 @@
             <TextBox
                 Grid.Row="0"
                 Grid.Column="1"
-                Text="{Binding AccountName}"/>
+                Text="{Binding Name}"/>
             
             <!-- Email Section -->
             <Label
@@ -51,14 +51,19 @@
             <TextBox
                 Grid.Row="1"
                 Grid.Column="1"
-                Text="{Binding AccountEmail}"/>
-            
-            <!-- Save Changes Part -->
-            <Button
-                Content="Save Changes"
+                Text="{Binding Email}"/>
+
+            <StackPanel
+                Orientation="Horizontal"
                 Grid.Row="2"
-                Grid.Column="1"
-                Command="{Binding SaveChanges}"/>
+                Grid.Column="1">
+                <!-- Save Changes Part -->
+                <Button
+                    Content="Save Changes"
+                    Command="{Binding SaveChanges}"/>
+                <Label
+                    Content="{Binding UserFeedback}"/>
+            </StackPanel>
         </Grid>
 
         <Label
@@ -111,13 +116,20 @@
                 x:Name="newPasswordAgain"
                 Grid.Row="2"
                 Grid.Column="1"/>
-            
-            <!-- Save Password Changes -->
-            <Button
-                Content="Update Password"
+
+            <StackPanel
+                Orientation="Horizontal"
                 Grid.Row="3"
-                Grid.Column="1"
-                Command="{Binding UpdatePassword}"/>
+                Grid.Column="1">
+                <!-- Save Password Changes -->
+                <Button
+                    Content="Update Password"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Command="{Binding UpdatePassword}"/>
+                <Label
+                    Content="{Binding PasswordFeedback}"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
