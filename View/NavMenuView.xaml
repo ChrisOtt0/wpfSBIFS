@@ -32,8 +32,8 @@
             <Button
                 Style="{StaticResource base_button}"
                 Grid.Row="1"
-                Content="Group"
-                Command="{Binding MoveToGroupView}"/>
+                Content="Groups"
+                Command="{Binding MoveToGroupsView}"/>
 
             <Button
                 Style="{StaticResource base_button}"
