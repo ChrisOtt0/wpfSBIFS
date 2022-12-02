@@ -194,7 +194,7 @@
     <!-- Form Header1 -->
     <Style TargetType="Label" x:Key="form_header1" BasedOn="{StaticResource login_label}">
         <Setter Property="Margin" Value="50, 10"/>
-        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="FontSize" Value="28"/>
         <Setter Property="FontWeight" Value="Bold"/>
         <Setter Property="VerticalAlignment" Value="Bottom"/>
     </Style>
@@ -265,6 +265,39 @@
     <!-- Base ListBox -->
     <Style TargetType="ListBox" x:Key="Default">
         <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
+    </Style>
+    
+    <!-- Editable Label -->
+    <Style x:Key="EditableLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource form_header1}">
+        <Setter Property="Foreground" Value="{StaticResource fg}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Grid>
+                        <TextBox Name="textBox"
+                             Grid.ZIndex="1"
+                             Padding="1,3,0,0"
+                             Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Label}}, Path=Content, UpdateSourceTrigger=PropertyChanged}"
+                             Opacity="0"/>
+                        <Border BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" Background="{TemplateBinding Background}" Padding="{TemplateBinding Padding}" SnapsToDevicePixels="true">
+                            <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter TargetName="textBox" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.GrayTextBrushKey}}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
     </Style>
 
 </ResourceDictionary>

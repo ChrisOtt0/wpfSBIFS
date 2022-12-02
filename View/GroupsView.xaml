@@ -36,7 +36,7 @@
     
     <Grid Style="{StaticResource main_grid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
 

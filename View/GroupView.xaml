@@ -6,11 +6,33 @@
              xmlns:local="clr-namespace:wpfSBIFS.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="700">
-    <StackPanel Background="Red">
-        <Label Content="{Binding GroupID}"/>
-        <Button
-            Content="Help"
-            Margin="2"
-            Command="{Binding Cancel}"/>
-    </StackPanel>
+    <Grid
+        Style="{StaticResource main_grid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="8*"/>
+        </Grid.RowDefinitions>
+
+        <Grid
+            Grid.Row="0">
+            <Label 
+                Style="{StaticResource EditableLabelStyle}" 
+                HorizontalAlignment="Left"
+                VerticalAlignment="Center"
+                Content="{Binding GroupName}"/>
+        </Grid>
+
+        <Grid
+            Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="6*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Participants and Activities -->
+            <!-- Buttons -->
+            <!-- Feedback -->
+        </Grid>
+    </Grid>
 </UserControl>

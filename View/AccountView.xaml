@@ -8,7 +8,7 @@
              d:DesignHeight="600" d:DesignWidth="700">
     <Grid Style="{StaticResource main_grid}">
         <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
             <RowDefinition Height="2*"/>
             <RowDefinition Height="*"/>
             <RowDefinition Height="3*"/>
@@ -66,13 +66,16 @@
                 Grid.Column="2"
                 HorizontalAlignment="Right">
                 <!-- Save Changes Part -->
+                <Label
+                    Style="{StaticResource form_label}"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Content="{Binding UserFeedback}"/>
                 <Button
                     Style="{StaticResource form_button}"
                     Content="Save Changes"
                     Margin="0, 0, 125, 0"
                     Command="{Binding SaveChanges}"/>
-                <Label
-                    Content="{Binding UserFeedback}"/>
             </StackPanel>
         </Grid>
 
@@ -141,6 +144,9 @@
                 Grid.Column="2"
                 HorizontalAlignment="Right">
                 <!-- Save Password Changes -->
+                <Label
+                    Style="{StaticResource form_label}"
+                    Content="{Binding PasswordFeedback}"/>
                 <Button
                     Style="{StaticResource form_button}"
                     Content="Update Password"
@@ -148,8 +154,6 @@
                     Grid.Column="1"
                     Margin="0, 0, 125, 0"
                     Command="{Binding UpdatePassword}"/>
-                <Label
-                    Content="{Binding PasswordFeedback}"/>
             </StackPanel>
         </Grid>
     </Grid>
