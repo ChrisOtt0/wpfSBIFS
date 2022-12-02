@@ -22,24 +22,24 @@ namespace wpfSBIFS.ViewModel
     {
         string baseUrl = "UserLogin/";
 
-        public string loginFormEmail = string.Empty;
-        public string feedbackLabel = string.Empty;
-        private readonly IHttpService _httpService;
-        private readonly ITokenService _tokenService;
+        private string loginEmail = string.Empty;
+        private string feedbackLabel = string.Empty;
+        private readonly IHttpService _http;
+        private readonly ITokenService _token;
 
-        public LoginViewModel(IHttpService httpService, ITokenService tokenService)
+        public LoginViewModel(IHttpService http, ITokenService token)
         {
-            LoginCommand = new Command(Login);
-            _httpService = httpService;
-            _tokenService = tokenService;
+            Login = new Command(LoginCommand);
+            _http = http;
+            _token = token;
         }
 
-        public string LoginFormEmail
+        public string LoginEmail
         {
-            get => loginFormEmail;
+            get => loginEmail;
             set
             {
-                loginFormEmail = value;
+                loginEmail = value;
                 OnPropertyChanged();
             }
         }
@@ -56,14 +56,14 @@ namespace wpfSBIFS.ViewModel
 
         public PasswordBox? PasswordBox { get; set; }
 
-        public Command LoginCommand { get; set; }
+        public Command Login { get; set; }
 
-        public async Task Login()
+        public async Task LoginCommand()
         {
             FeedbackLabel = "Connecting...";
             string url = "Login";
 
-            if (LoginFormEmail == "" || LoginFormEmail == string.Empty)
+            if (LoginEmail == "" || LoginEmail == string.Empty)
             {
                 FeedbackLabel = "Please enter an email.";
                 return;
@@ -77,18 +77,18 @@ namespace wpfSBIFS.ViewModel
 
             IJson data = new UserLoginDto
             {
-                Email = LoginFormEmail,
+                Email = LoginEmail,
                 Password = PasswordBox.Password,
             };
-            HttpResponseMessage response = await _httpService.Post(baseUrl + url, data);
+            HttpResponseMessage response = await _http.Post(baseUrl + url, data);
 
             switch( (int) response.StatusCode )
             {
                 // OK
                 case 200:
                     TokenDto json = await response.Content.ReadFromJsonAsync<TokenDto>();
-                    _tokenService.Jwt = json.Jwt;
-                    _httpService.AddAuthentication(_tokenService.Jwt);
+                    _token.Jwt = json.Jwt;
+                    _http.AddAuthentication(_token.Jwt);
 
                     ((App)App.Current).ChangeUserControl(App.container.Resolve<NavMenuView>());
                     break;

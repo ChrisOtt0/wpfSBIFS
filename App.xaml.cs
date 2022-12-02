@@ -9,6 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using Unity;
 using wpfSBIFS.Services.HttpService;
+using wpfSBIFS.Services.NavigationService;
 using wpfSBIFS.Services.TokenService;
 using wpfSBIFS.ViewModel;
 
@@ -41,11 +42,12 @@ namespace wpfSBIFS
         {
             container.RegisterSingleton<ITokenService, TokenService>();
             container.RegisterSingleton<IHttpService, HttpService>();
+            container.RegisterSingleton<INavigationService, NavigationService>();
             container.RegisterType<ILoginViewModel, LoginViewModel>();
             container.RegisterSingleton<INavMenuViewModel, NavMenuViewModel>();
-            container.RegisterSingleton<IAccountViewModel, AccountViewModel>();
+            container.RegisterType<IAccountViewModel, AccountViewModel>();
+            container.RegisterSingleton<IGroupsViewModel, GroupsViewModel>();
             container.RegisterSingleton<IGroupViewModel, GroupViewModel>();
-            
         }
     }
 }

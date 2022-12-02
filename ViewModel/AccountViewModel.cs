@@ -2,7 +2,10 @@
 using System.Collections.Generic;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Net.Http;
+using System.Net.Http.Json;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -18,16 +21,20 @@ namespace wpfSBIFS.ViewModel
     {
         private string name = string.Empty;
         private string email = string.Empty;
+        private string userFeedback = string.Empty;
+        private string passwordFeedback = string.Empty;
         private string baseUrl = "User/";
-        private readonly IHttpService _httpService;
+        private readonly IHttpService _http;
+        private UserDto user;
 
+        
         public Command SaveChanges { get; set; }
         public Command UpdatePassword { get; set; }
         public PasswordBox OldPasswordBox { get; set; }
         public PasswordBox NewPasswordBox { get; set; }
         public PasswordBox NewPasswordAgainBox { get; set; }
 
-        public string AccountName
+        public string Name
         {
             get => name;
             set
@@ -37,7 +44,7 @@ namespace wpfSBIFS.ViewModel
             }
         }
 
-        public string AccountEmail
+        public string Email
         {
             get => email;
             set
@@ -47,39 +54,103 @@ namespace wpfSBIFS.ViewModel
             }
         }
 
-        public AccountViewModel(IHttpService httpService)
+        public string UserFeedback 
+        { 
+            get => userFeedback; 
+            set
+            {
+                userFeedback = value;
+                OnPropertyChanged();
+            }
+        }
+        public string PasswordFeedback 
+        { 
+            get => passwordFeedback; 
+            set
+            {
+                passwordFeedback = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public AccountViewModel(IHttpService http)
         {
             SaveChanges = new Command(SaveChangesCommand);
             UpdatePassword = new Command(UpdatePasswordCommand);
-            _httpService = httpService;
+            _http = http;
+        }
+
+        public async void OnInitAsync()
+        {
+            string url = "ReadOne";
+            HttpResponseMessage response = await _http.Get(baseUrl + url);
+
+            if (!response.IsSuccessStatusCode)
+                UserFeedback = "Error: "
+                    + ((int)response.StatusCode).ToString()
+                    + ": " + await response.Content.ReadAsStringAsync();
+
+            user = await response.Content.ReadFromJsonAsync<UserDto>();
+            Name = user.Name;
+            Email = user.Email;
         }
 
         private async Task SaveChangesCommand()
         {
+            UserFeedback = "Saving changes...";
             string url = "UpdateUser";
-            IJson data = new UserDto() {Name = AccountName, Email = AccountEmail};
-            var result = await _httpService.Put(baseUrl + url, data );
-            string message = result.IsSuccessStatusCode ? "Changes saved" : "Something went wrong";
+
+            IJson data = new UserDto() 
+            {
+                Name = this.Name, 
+                Email = this.Email
+            };
+            HttpResponseMessage response = await _http.Put(baseUrl + url, data );
+            
+            if (!response.IsSuccessStatusCode)
+            {
+                UserFeedback = "Error: "
+                    + ((int)response.StatusCode).ToString()
+                    + ": " + await response.Content.ReadAsStringAsync();
+                return;
+            }
+
+            UserFeedback = "Changes saved successfully.";
         }
 
         private async Task UpdatePasswordCommand() 
         {
+            PasswordFeedback = "Updating password...";
             string url = "UpdatePassword";
+
             if (OldPasswordBox.Password == string.Empty || NewPasswordBox.Password == string.Empty || NewPasswordAgainBox.Password == string.Empty)
             {
-                MessageBox.Show("Please fill in all fields"); //Replace with trigger message to the right of the field or something like that
+                PasswordFeedback = "Please fill in all relevant fields.";
+                return;
             }
-            else if (NewPasswordBox.Password != NewPasswordAgainBox.Password)
+
+            if (NewPasswordBox.Password != NewPasswordAgainBox.Password)
             {
-                MessageBox.Show("New passwords do not match"); //Again message which displays to the right of the field or something like that
+                PasswordFeedback = "New passwords do not match";
+                return;
             }
-            else
+            
+            IJson data = new PasswordDto() 
             {
-                IJson data = new PasswordDto() {OldPassword = OldPasswordBox.Password, NewPassword = NewPasswordBox.Password};
-                var response = await _httpService.Put(baseUrl + url, data);
-                
-                MessageBox.Show(response.IsSuccessStatusCode ? "Password updated" : "Failed to update password"); //Again message which displays to the right of the field or something like that
+                OldPassword = OldPasswordBox.Password, 
+                NewPassword = NewPasswordBox.Password
+            };
+            HttpResponseMessage response = await _http.Put(baseUrl + url, data);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                UserFeedback = "Error: "
+                    + ((int)response.StatusCode).ToString()
+                    + ": " + await response.Content.ReadAsStringAsync();
+                return;
             }
+
+            PasswordFeedback = "Password updated successfully.";
         }
     }
 }

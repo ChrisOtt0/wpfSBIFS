@@ -12,17 +12,22 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using wpfSBIFS.ViewModel;
 
 namespace wpfSBIFS.View
 {
     /// <summary>
-    /// Interaction logic for HomeView.xaml
+    /// Interaction logic for GroupView.xaml
     /// </summary>
-    public partial class HomeView : UserControl
+    public partial class GroupsView : UserControl
     {
-        public HomeView()
+        private readonly IGroupsViewModel _viewModel;
+
+        public GroupsView(IGroupsViewModel viewModel)
         {
             InitializeComponent();
+            _viewModel = viewModel;
+            this.DataContext = _viewModel;
         }
     }
 }

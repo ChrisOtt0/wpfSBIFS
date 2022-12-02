@@ -5,8 +5,12 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:wpfSBIFS.View"
              mc:Ignorable="d" 
-             d:DesignHeight="600" d:DesignWidth="800">
-    <Grid Background="Green">
-            
-    </Grid>
+             d:DesignHeight="600" d:DesignWidth="700">
+    <StackPanel Background="Red">
+        <Label Content="{Binding GroupID}"/>
+        <Button
+            Content="Help"
+            Margin="2"
+            Command="{Binding Cancel}"/>
+    </StackPanel>
 </UserControl>

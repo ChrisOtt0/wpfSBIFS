@@ -5,17 +5,28 @@
     <SolidColorBrush x:Key="bg" Color="#d9d9d9"/>
     <SolidColorBrush x:Key="txt_bg" Color="#e6e6e6"/>
     <SolidColorBrush x:Key="border_bg" Color="#e6e6e6"/>
+    <SolidColorBrush x:Key="bg_secondary" Color="#bfbfbf"/>
+    <SolidColorBrush x:Key="text_bg_secondary" Color="#bfbfbf"/>
+    <SolidColorBrush x:Key="border_bg_secondary" Color="#bfbfbf"/>
     <SolidColorBrush x:Key="fg" Color="#3d3d3d"/>
     <SolidColorBrush x:Key="clicked" Color="#f7591f"/>
     <Color x:Key="bg_color">#d9d9d9</Color>
     <Color x:Key="txt_bg_color">#e6e6e6</Color>
     <Color x:Key="border_bg_color">#e6e6e6</Color>
+    <Color x:Key="bg_secondary_color">#bfbfbf</Color>
+    <Color x:Key="text_bg_secondary_color">#bfbfbf</Color>
+    <Color x:Key="border_bg_secondary_color">#bfbfbf</Color>
     <Color x:Key="fg_color">#3D3D3D</Color>
     <Color x:Key="clicked_button">#f7591f</Color>
 
     <!-- Main grids -->
     <Style TargetType="Grid" x:Key="main_grid">
         <Setter Property="Background" Value="{StaticResource bg}"/>
+    </Style>
+
+    <!-- Nav grid -->
+    <Style TargetType="Grid" x:Key="nav_grid">
+        <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
     </Style>
 
     <!-- Border for content container -->
@@ -30,7 +41,9 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="25, 6"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="100"/>
+        <!--<Setter Property="Padding" Value="25, 6"/>-->
         <Setter Property="Foreground" Value="{StaticResource fg}"/>
         <Setter Property="FontFamily" Value="Droid Sans"/>
         <Setter Property="FontSize" Value="12"/>
@@ -177,4 +190,81 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!-- Form Header1 -->
+    <Style TargetType="Label" x:Key="form_header1" BasedOn="{StaticResource login_label}">
+        <Setter Property="Margin" Value="50, 10"/>
+        <Setter Property="FontSize" Value="32"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+    </Style>
+    
+    <!-- Form Header2 -->
+    <Style TargetType="Label" x:Key="form_header2" BasedOn="{StaticResource form_header1}">
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+    </Style>
+    
+    <!-- Form Label -->
+    <Style TargetType="Label" x:Key="form_label" BasedOn="{StaticResource login_label}">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="25,5, 10, 5"/>
+    </Style>
+    
+    <!-- Form Textbox -->
+    <Style TargetType="TextBox" x:Key="form_textbox" BasedOn="{StaticResource login_textbox}">
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="20, 10, 20, 10"/>
+    </Style>
+    
+    <!-- Form PasswordBox -->
+    <Style TargetType="PasswordBox" x:Key="form_passwordbox" BasedOn="{StaticResource login_passwordbox}">
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="20, 10, 20, 10"/>
+    </Style>
+
+    <!-- Form button -->
+    <Style TargetType="Button" BasedOn="{StaticResource base_button}" x:Key="form_button">
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                            x:Name="base_button_border"
+                            CornerRadius="8" 
+                            Background="{StaticResource bg_secondary}" 
+                            BorderBrush="{StaticResource bg_secondary}"
+                            BorderThickness="1,1,1,1" >
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="Center"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Base ListBox -->
+    <Style TargetType="ListBox" x:Key="Default">
+        <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
+    </Style>
+
 </ResourceDictionary>

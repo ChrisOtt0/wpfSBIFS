@@ -6,30 +6,40 @@
              xmlns:local="clr-namespace:wpfSBIFS.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="800">
-    <Grid>
+    <Grid Style="{StaticResource main_grid}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
-            <ColumnDefinition Width="5*"/>
+            <ColumnDefinition Width="6*"/>
         </Grid.ColumnDefinitions>
 
         <Grid
+            Style="{StaticResource nav_grid}"
             Grid.Column="0">
             <Grid.RowDefinitions>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="*"/>
+                <RowDefinition Height="9*"/>
                 <RowDefinition Height="*"/>
-                <RowDefinition Height="5*"/>
+                <RowDefinition Height="0.6*"/>
             </Grid.RowDefinitions>
 
             <Button
+                Style="{StaticResource base_button}"
                 Grid.Row="0"
                 Content="Account"
                 Command="{Binding MoveToAccountView}"/>
 
             <Button
+                Style="{StaticResource base_button}"
                 Grid.Row="1"
-                Content="Group"
-                Command="{Binding MoveToGroupView}"/>
+                Content="Groups"
+                Command="{Binding MoveToGroupsView}"/>
+
+            <Button
+                Style="{StaticResource base_button}"
+                Grid.Row="3"
+                Content="Logout"
+                Command="{Binding Logout}"/>
         </Grid>
 
         <ContentControl
