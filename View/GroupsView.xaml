@@ -100,7 +100,8 @@
                     Style="{StaticResource Default}"
                     ItemTemplate="{StaticResource GroupsList}" 
                     ItemsSource="{Binding Groups}"
-                    HorizontalContentAlignment="Stretch" d:ItemsSource="{d:SampleData ItemCount=5}"/>
+                    HorizontalContentAlignment="Stretch" 
+                    d:ItemsSource="{d:SampleData ItemCount=5}"/>
             </Grid>
             
             <!-- New Group button -->

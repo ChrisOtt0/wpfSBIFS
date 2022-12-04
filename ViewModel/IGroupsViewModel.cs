@@ -19,5 +19,7 @@ namespace wpfSBIFS.ViewModel
         public Command Search { get; set; }
         public Command NewGroup { get; set; }
         public Command EditGroup { get; set; }
+
+        public void OnInit();
     }
 }

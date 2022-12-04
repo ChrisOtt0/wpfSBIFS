@@ -86,8 +86,7 @@ namespace wpfSBIFS.ViewModel
             HttpResponseMessage response = await _http.Get(baseUrl + url);
 
             if (!response.IsSuccessStatusCode)
-                UserFeedback = "Error: "
-                    + ((int)response.StatusCode).ToString()
+                UserFeedback = ((int)response.StatusCode).ToString()
                     + ": " + await response.Content.ReadAsStringAsync();
 
             user = await response.Content.ReadFromJsonAsync<UserDto>();
@@ -109,8 +108,7 @@ namespace wpfSBIFS.ViewModel
             
             if (!response.IsSuccessStatusCode)
             {
-                UserFeedback = "Error: "
-                    + ((int)response.StatusCode).ToString()
+                UserFeedback = ((int)response.StatusCode).ToString()
                     + ": " + await response.Content.ReadAsStringAsync();
                 return;
             }
@@ -144,8 +142,7 @@ namespace wpfSBIFS.ViewModel
 
             if (!response.IsSuccessStatusCode)
             {
-                UserFeedback = "Error: "
-                    + ((int)response.StatusCode).ToString()
+                UserFeedback = ((int)response.StatusCode).ToString()
                     + ": " + await response.Content.ReadAsStringAsync();
                 return;
             }

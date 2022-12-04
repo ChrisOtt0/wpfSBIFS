@@ -28,6 +28,7 @@ namespace wpfSBIFS.View
             InitializeComponent();
             _viewModel = viewModel;
             this.DataContext = _viewModel;
+            _viewModel.OnInit();
         }
     }
 }

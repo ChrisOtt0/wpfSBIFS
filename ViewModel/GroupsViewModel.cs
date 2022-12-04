@@ -11,6 +11,7 @@ using wpfSBIFS.DataTransferObjects;
 using wpfSBIFS.Models;
 using wpfSBIFS.Services.HttpService;
 using wpfSBIFS.Services.NavigationService;
+using wpfSBIFS.Services.SessionService;
 using wpfSBIFS.Services.TokenService;
 using wpfSBIFS.Tools;
 
@@ -21,11 +22,21 @@ namespace wpfSBIFS.ViewModel
         private readonly IHttpService _http;
         private readonly ITokenService _token;
         private readonly INavigationService _nav;
+        private readonly ISessionService _session;
         private string baseUrl = "AdminGroup/";
         private string feedbackLabel = string.Empty;
+        private string email = string.Empty;
         private ObservableCollection<Group> groups = new ObservableCollection<Group>();
 
-        public string Email { get; set; } = string.Empty;
+        public string Email
+        {
+            get => email;
+            set
+            {
+                email = value;
+                OnPropertyChanged();
+            }
+        }
         public string FeedbackLabel
         {
             get => feedbackLabel;
@@ -49,33 +60,45 @@ namespace wpfSBIFS.ViewModel
         public Command NewGroup { get; set; }
         public Command EditGroup { get; set; }
 
-        public GroupsViewModel(IHttpService http, ITokenService token, INavigationService nav)
+        public GroupsViewModel(IHttpService http, ITokenService token, INavigationService nav, ISessionService session)
         {
             _http = http;
             _token = token;
             _nav = nav;
+            _session = session;
 
             Search = new Command(SearchCommand);
             NewGroup = new Command(NewGroupCommand);
             EditGroup = new Command(EditGroupCommand);
+
+
         }
 
-        public async void SearchCommand(object parameter)
+        public async void OnInit()
+        {
+            if (_session.CurrentUser == string.Empty)
+                return;
+
+            Email = _session.CurrentUser;
+            SearchCommand(null);
+        }
+
+        private async void SearchCommand(object parameter)
         {
             string url = "ReadMany";
             await SendCommand(url);
         }
 
-        public async void NewGroupCommand(object parameter)
+        private async void NewGroupCommand(object parameter)
         {
             string url = "Create";
             await SendCommand(url);
         }
 
-        public async void EditGroupCommand(object parameter)
+        private async void EditGroupCommand(object parameter)
         {
             Group g = (Group)parameter;
-            _token.CurrentGroup = g.GroupID;
+            _session.CurrentGroup = g.GroupID;
             _nav.MoveToGroupView.Execute(parameter);
         }
 
@@ -96,8 +119,7 @@ namespace wpfSBIFS.ViewModel
             HttpResponseMessage response = await _http.Post(baseUrl + url, data);
             if (!response.IsSuccessStatusCode)
             {
-                FeedbackLabel = "Error: "
-                    + response.StatusCode.ToString()
+                FeedbackLabel = ((int)response.StatusCode).ToString()
                     + ": " + await response.Content.ReadAsStringAsync();
                 return;
             }
@@ -109,6 +131,7 @@ namespace wpfSBIFS.ViewModel
                 return;
             }
 
+            _session.CurrentUser = Email;
             Groups = new ObservableCollection<Group>(received);
             FeedbackLabel = string.Empty;
         }

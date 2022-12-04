@@ -28,6 +28,13 @@ namespace wpfSBIFS.View
             InitializeComponent();
             _viewModel = viewModel;
             this.DataContext = _viewModel;
+            _viewModel.View = this;
+            _viewModel.OnInit();
+        }
+
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            _viewModel.SearchEmailChanged();
         }
     }
 }

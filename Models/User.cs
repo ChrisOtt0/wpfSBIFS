@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wpfSBIFS.DataTransferObjects;
 
 namespace wpfSBIFS.Models
 {
@@ -12,7 +13,7 @@ namespace wpfSBIFS.Models
         user
     }
 
-    public class User
+    public class User : IJson
     {
         public int UserID { get; set; }
         public string Name { get; set; } = string.Empty;

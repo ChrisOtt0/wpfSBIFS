@@ -3,9 +3,84 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:i="http://schemas.microsoft.com/xaml/behaviors"
              xmlns:local="clr-namespace:wpfSBIFS.View"
              mc:Ignorable="d" 
              d:DesignHeight="600" d:DesignWidth="700">
+    <UserControl.Resources>
+        <BooleanToVisibilityConverter x:Key="TrueToVisibleConverter"/>
+        <DataTemplate x:Key="ParticipantsList">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Column="0" 
+                    Style="{StaticResource login_label}"
+                    Content="{Binding Path=Name}"/>
+                <Button
+                    Grid.Column="2"
+                    Style="{StaticResource base_button}"
+                    Command="{Binding DataContext.RemoveParticipant, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}"
+                    CommandParameter="{Binding}"
+                    Content="X"
+                    Width="30"
+                    Margin="10, 2"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="ActivitiesList">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Column="0" 
+                    Style="{StaticResource login_label}"
+                    Content="{Binding Path=Description}"/>
+                <Label
+                    Grid.Column="1" 
+                    Style="{StaticResource login_label}"
+                    Content="{Binding Path=Amount}"/>
+                <Button
+                    Grid.Column="2"
+                    Style="{StaticResource base_button}"
+                    Command="{Binding DataContext.EditActivity, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}"
+                    CommandParameter="{Binding}"
+                    Content="X"
+                    Width="30"
+                    Margin="10, 2"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="AllUserDtos">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Style="{StaticResource login_label}"
+                    Content="{Binding Path=Email}"/>
+            </Grid>
+        </DataTemplate>
+    </UserControl.Resources>
     <Grid
         Style="{StaticResource main_grid}">
         <Grid.RowDefinitions>
@@ -13,26 +88,215 @@
             <RowDefinition Height="8*"/>
         </Grid.RowDefinitions>
 
-        <Grid
+        <StackPanel
+            Orientation="Horizontal"
             Grid.Row="0">
+            <Label
+                Style="{StaticResource form_header1}"
+                Content="Group: "
+                Margin="50, 10, 0, 0"/>
             <Label 
-                Style="{StaticResource EditableLabelStyle}" 
+                Style="{StaticResource EditableLabelStyle}"
+                Name="groupNameLabel"
                 HorizontalAlignment="Left"
-                VerticalAlignment="Center"
-                Content="{Binding GroupName}"/>
-        </Grid>
+                VerticalAlignment="Bottom"
+                Margin="0"
+                Content="{Binding GroupName, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
+        </StackPanel>
 
         <Grid
             Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="6*"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             
             <!-- Participants and Activities -->
+            <Grid
+                Grid.Row="0"
+                Margin="10">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Participants -->
+                <Grid
+                    Grid.Column="0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Header -->
+                    <Label
+                        Grid.Row="0"
+                        Content="Participants"
+                        Style="{StaticResource form_header2}"
+                        Margin="50, 0"/>
+                    
+                    <!-- List of current participants -->
+                    <Grid
+                        Grid.Row="1"
+                        Margin="5">
+                        <ListBox
+                            Style="{StaticResource Default}"
+                            ItemTemplate="{StaticResource ParticipantsList}"
+                            ItemsSource="{Binding Participants}"
+                            HorizontalContentAlignment="Stretch"
+                            d:ItemsSource="{d:SampleData ItemCount=5}"/>
+                    </Grid>
+                    
+                    <!-- Add Participant by email -->
+                    <Grid
+                        Grid.Row="2"
+                        Margin="25, 0">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <Label
+                            Grid.Column="0"
+                            Style="{StaticResource form_label}"
+                            Content="Email: "
+                            Margin="0, 5"/>
+
+                        <StackPanel
+                            Orientation="Vertical"
+                            Grid.Column="1">
+                            <TextBox
+                                HorizontalAlignment="Center"
+                                Style="{StaticResource form_textbox}"
+                                Text="{Binding SearchEmail, UpdateSourceTrigger=PropertyChanged}"
+                                Margin="10"
+                                Width="160"
+                                TextChanged="TextBox_TextChanged"/>
+
+                            <Popup
+                                Visibility="{Binding PopupIsOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"
+                                IsOpen="{Binding PopupIsOpen, UpdateSourceTrigger=PropertyChanged}"
+                                Height="Auto"
+                                StaysOpen="False"
+                                Placement="Bottom">
+
+                                <ListBox
+                                    x:Name="popupList"
+                                    Focusable="True"
+                                    Visibility="{Binding PopupIsOpen, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay, Converter={StaticResource TrueToVisibleConverter}}"
+                                    ItemTemplate="{StaticResource AllUserDtos}"
+                                    Background="{StaticResource bg}"
+                                    ItemsSource="{Binding SearchPopup}"
+                                    Height="Auto">
+                                    <i:Interaction.Triggers>
+                                        <i:EventTrigger EventName="SelectionChanged">
+                                            <i:InvokeCommandAction Command="{Binding SelectionChanged}" CommandParameter="{Binding ElementName=popupList, Path=SelectedItem}"/>
+                                        </i:EventTrigger>
+                                    </i:Interaction.Triggers>
+                                </ListBox>
+                            </Popup>
+                        </StackPanel>
+
+                        <Button
+                            Grid.Column="2"
+                            Style="{StaticResource form_button}"
+                            Content="Add"
+                            Width="50"
+                            Command="{Binding AddParticipant}"/>
+                    </Grid>
+                </Grid>
+                
+                <!-- Activities -->
+                <Grid
+                    Grid.Column="1">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="8*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+                    
+                    <!-- Header -->
+                    <Label
+                        Grid.Row="0"
+                        Content="Activities"
+                        Style="{StaticResource form_header2}"
+                        Margin="50, 0"/>
+                    
+                    <!-- List of current activities -->
+                    <Grid
+                        Grid.Row="1"
+                        Margin="5">
+                        <ListBox
+                            Style="{StaticResource Default}"
+                            ItemTemplate="{StaticResource ActivitiesList}"
+                            ItemsSource="{Binding Activities}"
+                            HorizontalContentAlignment="Stretch"
+                            d:ItemsSource="{d:SampleData ItemCount=5}"/>
+                    </Grid>
+                    
+                    <!-- Add activity button -->
+                    <Grid
+                        Grid.Row="2">
+                        <Button
+                            Content="Add Activity"
+                            Style="{StaticResource form_button}"
+                            Margin="5"
+                            Width="90"
+                            Command="{Binding AddActivity}"/>
+                    </Grid>
+                    
+                </Grid>
+            </Grid>
+            
             <!-- Buttons -->
+            <Grid
+                HorizontalAlignment="Stretch"
+                Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel
+                    Grid.Column="0"
+                    Orientation="Horizontal">
+                    <Button
+                        Style="{StaticResource form_button}"
+                        Content="Save"
+                        Width="75"
+                        Margin="50, 10, 15, 10"
+                        Command="{Binding Save}"
+                        HorizontalAlignment="Left"/>
+                    <Button
+                        Style="{StaticResource form_button}"
+                        Content="Cancel"
+                        Width="75"
+                        Margin="15, 10, 15, 10"
+                        Command="{Binding Cancel}"/>
+
+                </StackPanel>
+                <Button
+                    Grid.Column="1"
+                    Style="{StaticResource form_button}"
+                    Content="Calculate"
+                    Width="75"
+                    Margin="15, 10, 50, 10"
+                    HorizontalAlignment="Right"
+                    Command="{Binding Calculate}"/>
+            </Grid>
+            
             <!-- Feedback -->
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                Grid.Row="2">
+                <Label
+                    Style="{StaticResource login_feedback_label}"
+                    Content="{Binding FeedbackLabel}"
+                    Margin="50, 5, 50, 25"/>
+            </StackPanel>
         </Grid>
     </Grid>
 </UserControl>
