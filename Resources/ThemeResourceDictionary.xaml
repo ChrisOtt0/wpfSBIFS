@@ -316,5 +316,40 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <!-- Danger button -->
+    <Style TargetType="Button" BasedOn="{StaticResource form_button}" x:Key="danger_button">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                            x:Name="base_button_border"
+                            CornerRadius="8" 
+                            Background="Red" 
+                            BorderBrush="Red"
+                            BorderThickness="1,1,1,1" >
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="Center"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>

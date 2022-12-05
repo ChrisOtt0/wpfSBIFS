@@ -27,6 +27,7 @@ namespace wpfSBIFS.ViewModel
         public Command AddActivity { get; set; }
         public Command EditActivity { get; set; }
         public Command SelectionChanged { get; set; }
+        public Command DeleteGroup { get; set; }
         public GroupView View { get; set; }
 
         public ObservableCollection<User> Participants { get; set; }

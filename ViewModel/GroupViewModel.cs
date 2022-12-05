@@ -95,6 +95,7 @@ namespace wpfSBIFS.ViewModel
         public Command AddActivity { get; set; }
         public Command EditActivity { get; set; }
         public Command SelectionChanged { get; set; }
+        public Command DeleteGroup { get; set; }
 
         public ObservableCollection<User> Participants
         {
@@ -141,6 +142,7 @@ namespace wpfSBIFS.ViewModel
             AddActivity = new Command(AddActivityCommand);
             EditActivity = new Command(EditActivityCommand);
             SelectionChanged = new Command(SelectionChangedCommand);
+            DeleteGroup = new Command(DeleteGroupCommand);
         }
 
         public async void OnInit()
@@ -330,6 +332,23 @@ namespace wpfSBIFS.ViewModel
             {
                 ClosePopup();
             }
+        }
+
+        public async void DeleteGroupCommand(object parameter)
+        {
+            string url = "Delete";
+            IJson data = new GroupDto() { GroupID = Group.GroupID };
+
+            HttpResponseMessage response = await _http.Delete(baseUrl + url, data);
+            if (!response.IsSuccessStatusCode)
+            {
+                FeedbackLabel = ((int)response.StatusCode).ToString()
+                    + ": " + await response.Content.ReadAsStringAsync();
+                return;
+            }
+
+            _session.CurrentGroup = 0;
+            _nav.MoveToGroupsView.Execute(parameter);
         }
 
         private void OpenPopup()

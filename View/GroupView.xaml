@@ -266,7 +266,7 @@
                         Style="{StaticResource form_button}"
                         Content="Save"
                         Width="75"
-                        Margin="50, 10, 15, 10"
+                        Margin="25, 10, 15, 10"
                         Command="{Binding Save}"
                         HorizontalAlignment="Left"/>
                     <Button
@@ -275,7 +275,12 @@
                         Width="75"
                         Margin="15, 10, 15, 10"
                         Command="{Binding Cancel}"/>
-
+                    <Button
+                        Style="{StaticResource danger_button}"
+                        Content="Delete"
+                        Width="75"
+                        Margin="15, 10"
+                        Command="{Binding DeleteGroup}"/>
                 </StackPanel>
                 <Button
                     Grid.Column="1"
