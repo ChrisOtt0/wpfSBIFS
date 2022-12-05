@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wpfSBIFS.DataTransferObjects;
 
 namespace wpfSBIFS.Models
 {
-    public class UserLogin
+    public class UserLogin : IJson
     {
         public int UserLoginID { get; set; }
         public string Email { get; set; } = string.Empty;

@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using wpfSBIFS.DataTransferObjects;
 
 namespace wpfSBIFS.Models
 {
-    public class Group
+    public class Group : IJson
     {
         public int GroupID { get; set; }
         public int? OwnerID { get; set; }
