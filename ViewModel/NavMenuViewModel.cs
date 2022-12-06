@@ -21,6 +21,7 @@ namespace wpfSBIFS.ViewModel
         public Command MoveToAccountView { get; set; }
         public Command MoveToGroupsView { get; set; }
         public Command MoveToGroupView { get; set; }
+        public Command MoveToActivityView { get; set; }
         public Command Logout { get; set; }
         public ContentControl NavMenuPanel { get; set; }
 
@@ -31,10 +32,12 @@ namespace wpfSBIFS.ViewModel
             MoveToAccountView = new Command(MoveToAccountViewCommand);
             MoveToGroupsView = new Command(MoveToGroupsViewCommand);
             MoveToGroupView = new Command(MoveToGroupViewCommand);
+            MoveToActivityView = new Command(MoveToActivityViewCommand);
             Logout = new Command(LogoutCommand);
             _nav.MoveToAccountView = this.MoveToAccountView;
             _nav.MoveToGroupsView = this.MoveToGroupsView;
             _nav.MoveToGroupView = this.MoveToGroupView;
+            _nav.MoveToActivityView = this.MoveToActivityView;
         }
 
         public void SetHome()
@@ -55,6 +58,11 @@ namespace wpfSBIFS.ViewModel
         private void MoveToGroupViewCommand(object parameter)
         {
             NavMenuPanel.Content = App.container.Resolve<GroupView>();
+        }
+
+        private void MoveToActivityViewCommand(object parameter)
+        {
+            NavMenuPanel.Content = App.container.Resolve<ActivityView>();
         }
 
         private void LogoutCommand(object parameter)

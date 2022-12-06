@@ -13,5 +13,6 @@ namespace wpfSBIFS.Services.NavigationService
         public Command MoveToAccountView { get; set; }
         public Command MoveToGroupsView { get; set; }
         public Command MoveToGroupView { get; set; }
+        public Command MoveToActivityView { get; set; }
     }
 }

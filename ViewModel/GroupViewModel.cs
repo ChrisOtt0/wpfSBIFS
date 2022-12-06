@@ -27,6 +27,8 @@ namespace wpfSBIFS.ViewModel
         private string baseUrl = "AdminGroup/";
         private string groupUrl = "Group/";
         private string userUrl = "User/";
+        private string adminActivityUrl = "AdminActivity/";
+        private string activityUrl = "Activity/";
         private List<UserDto> allUsers = new List<UserDto>();
         private List<UserDto> availableUsers = new List<UserDto>();
         private List<UserDto> participantDtos = new List<UserDto>();
@@ -165,12 +167,19 @@ namespace wpfSBIFS.ViewModel
                 FeedbackLabel = ((int)response.StatusCode).ToString()
                     + ": " + await response.Content.ReadAsStringAsync();
                 _session.CurrentGroup = 0;
+                return;
             }
 
             Group g = await response.Content.ReadFromJsonAsync<Group>();
             Group = g;
             Participants = new ObservableCollection<User>(Group.Participants);
             Activities = new ObservableCollection<Activity>(Group.Activities);
+            foreach (Activity a in Activities)
+            {
+                if (a.Description.IndexOf('\n') != -1)
+                    a.Description = a.Description.Substring(0, (a.Description.IndexOf('\n')) - 1);
+            }
+            OnPropertyChanged("Activities");
             OnPropertyChanged("GroupName");
 
 
@@ -237,6 +246,7 @@ namespace wpfSBIFS.ViewModel
                 return; 
             }
             string url = "AddParticipant";
+            FeedbackLabel = "Loading...";
 
             GroupDto gDto = new GroupDto { GroupID = Group.GroupID };
             EmailDto eDto = new EmailDto { Email = SearchEmail };
@@ -259,6 +269,7 @@ namespace wpfSBIFS.ViewModel
             Participants = new ObservableCollection<User>(Group.Participants);
             Activities = new ObservableCollection<Activity>(Group.Activities);
             OnPropertyChanged("GroupName");
+            OnPropertyChanged("Activities");
 
             UserDto newParticipant = allUsers.Where(u => u.Email == SearchEmail).First();
             availableUsers.Remove(newParticipant);
@@ -272,6 +283,7 @@ namespace wpfSBIFS.ViewModel
             if (parameter == null) return;
             if (!(parameter.GetType() == typeof(User))) return;
 
+            FeedbackLabel = "Loading...";
             string url = "RemoveParticipant";
             GroupDto gDto = new GroupDto { GroupID = Group.GroupID };
             EmailDto eDto = new EmailDto { Email = (participantDtos.Where(u => u.UserID == ((User)parameter).UserID).First()).Email };
@@ -304,12 +316,48 @@ namespace wpfSBIFS.ViewModel
 
         private async void AddActivityCommand(object parameter)
         {
-            MessageBox.Show("New Activity");
+            string url = "Create";
+            UserDto? owner = participantDtos.Where(u => u.UserID == Group.OwnerID).FirstOrDefault();
+            if (owner == null)
+            {
+                FeedbackLabel = "Error finding owner amongst participants";
+                return;
+            }
+            GroupDto gDto = new GroupDto { GroupID = Group.GroupID };
+            EmailDto eDto = new EmailDto { Email = owner.Email };
+            IJson data = new GroupUserDto
+            {
+                GroupRequest = gDto,
+                UserRequest = eDto,
+            };
+
+            HttpResponseMessage response = await _http.Post(adminActivityUrl + url, data);
+            if (!response.IsSuccessStatusCode)
+            {
+                FeedbackLabel = ((int)response.StatusCode).ToString()
+                    + ": " + await response.Content.ReadAsStringAsync();
+                return;
+            }
+
+            List<Activity>? newActivities = await response.Content.ReadFromJsonAsync<List<Activity>>();
+            if (newActivities == null)
+            {
+                FeedbackLabel = "Error: Received activity list is null.";
+                return;
+            }
+
+            Group.Activities = newActivities;
+            Activities = new ObservableCollection<Activity>(Group.Activities);
+            FeedbackLabel = string.Empty;
         }
 
         private async void EditActivityCommand(object parameter)
         {
-            MessageBox.Show(parameter.GetType().ToString());
+            if (parameter == null) return;
+            if (!(parameter.GetType() == typeof(Activity))) return;
+
+            _session.CurrentActivity = ((Activity)parameter).ActivityID;
+            _nav.MoveToActivityView.Execute(parameter);
         }
 
         private async void SelectionChangedCommand(object parameter)
@@ -325,7 +373,7 @@ namespace wpfSBIFS.ViewModel
         {
             if (SearchEmail.Length > 2)
             {
-                SearchPopup = new ObservableCollection<UserDto>(allUsers.Where(u => u.Email.StartsWith(SearchEmail)));
+                SearchPopup = new ObservableCollection<UserDto>(availableUsers.Where(u => u.Email.StartsWith(SearchEmail)));
                 OpenPopup();
 
             } else

@@ -10,5 +10,6 @@ namespace wpfSBIFS.Services.SessionService
     {
         public string CurrentUser { get; set; }
         public int CurrentGroup { get; set; }
+        public int CurrentActivity { get; set; }
     }
 }

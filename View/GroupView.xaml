@@ -40,7 +40,7 @@
                     <RowDefinition Height="*"/>
                 </Grid.RowDefinitions>
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="2*"/>
+                    <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="Auto"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
@@ -60,7 +60,7 @@
                     CommandParameter="{Binding}"
                     Content="X"
                     Width="30"
-                    Margin="10, 2"/>
+                    Margin="10, 2, 2, 2"/>
             </Grid>
         </DataTemplate>
 
@@ -144,7 +144,7 @@
                         <ListBox
                             Style="{StaticResource Default}"
                             ItemTemplate="{StaticResource ParticipantsList}"
-                            ItemsSource="{Binding Participants}"
+                            ItemsSource="{Binding Participants, UpdateSourceTrigger=PropertyChanged}"
                             HorizontalContentAlignment="Stretch"
                             d:ItemsSource="{d:SampleData ItemCount=5}"/>
                     </Grid>
@@ -232,7 +232,7 @@
                         <ListBox
                             Style="{StaticResource Default}"
                             ItemTemplate="{StaticResource ActivitiesList}"
-                            ItemsSource="{Binding Activities}"
+                            ItemsSource="{Binding Activities, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"
                             HorizontalContentAlignment="Stretch"
                             d:ItemsSource="{d:SampleData ItemCount=5}"/>
                     </Grid>
