@@ -8,7 +8,7 @@ namespace wpfSBIFS.Models
 {
     public class ResponsibleParticipant
     {
-        public User Participant { get; set; }
+        public User? Participant { get; set; }
         public bool IsResponsible { get; set; }
         public string Name { get; set; } = string.Empty;
     }

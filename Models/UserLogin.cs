@@ -10,9 +10,9 @@ namespace wpfSBIFS.Models
     public class UserLogin : IJson
     {
         public int UserLoginID { get; set; }
-        public string Email { get; set; } = string.Empty;
-        public string Password { get; set; } = string.Empty;
-        public int UserID { get; set; }
-        public User User { get; set; }
+        public string? Email { get; set; } = string.Empty;
+        public string? Password { get; set; } = string.Empty;
+        public int? UserID { get; set; } = 0;
+        public User? User { get; set; }
     }
 }

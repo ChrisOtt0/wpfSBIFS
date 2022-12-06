@@ -53,7 +53,7 @@ namespace wpfSBIFS.ViewModel
 
         public double Amount 
         {
-            get => Activity.Amount;
+            get => Convert.ToDouble(Activity.Amount);
             set
             {
                 Activity.Amount = value;

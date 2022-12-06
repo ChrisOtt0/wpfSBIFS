@@ -231,7 +231,27 @@ namespace wpfSBIFS.ViewModel
 
         private async void CalculateCommand(object parameter)
         {
-            MessageBox.Show("Do math");
+            FeedbackLabel = "Calculating...";
+            string url = "Calculate";
+            IJson data = new GroupDto { GroupID = Group.GroupID };
+
+            HttpResponseMessage response = await _http.Post(groupUrl + url, data);
+            if (!response.IsSuccessStatusCode)
+            {
+                FeedbackLabel = ((int)response.StatusCode).ToString()
+                    + ": " + await response.Content.ReadAsStringAsync();
+                return;
+            }
+
+            CalculationDto cal = await response.Content.ReadFromJsonAsync<CalculationDto>();
+            if (cal == null)
+            {
+                FeedbackLabel = "Unknown error.";
+                return;
+            }
+
+            FeedbackLabel = string.Empty;
+            MessageBox.Show(cal.Results);
         }
 
         private async void AddParticipantCommand(object parameter)
