@@ -174,11 +174,7 @@ namespace wpfSBIFS.ViewModel
             Group = g;
             Participants = new ObservableCollection<User>(Group.Participants);
             Activities = new ObservableCollection<Activity>(Group.Activities);
-            foreach (Activity a in Activities)
-            {
-                if (a.Description.IndexOf('\n') != -1)
-                    a.Description = a.Description.Substring(0, (a.Description.IndexOf('\n')) - 1);
-            }
+            MakeDescriptionsPretty();
             OnPropertyChanged("Activities");
             OnPropertyChanged("GroupName");
 
@@ -253,7 +249,7 @@ namespace wpfSBIFS.ViewModel
             IJson data = new GroupEmailDto
             {
                 GroupRequest = gDto,
-                UserRequest = eDto,
+                EmailRequest = eDto,
             };
 
             HttpResponseMessage response = await _http.Put(baseUrl + url, data);
@@ -274,6 +270,8 @@ namespace wpfSBIFS.ViewModel
             UserDto newParticipant = allUsers.Where(u => u.Email == SearchEmail).First();
             availableUsers.Remove(newParticipant);
             participantDtos.Add(newParticipant);
+
+            MakeDescriptionsPretty();
 
             FeedbackLabel = string.Empty;
         }
@@ -311,6 +309,8 @@ namespace wpfSBIFS.ViewModel
             availableUsers.Add(oldParticipant);
             participantDtos.Remove(oldParticipant);
 
+            MakeDescriptionsPretty();
+
             FeedbackLabel = string.Empty;
         }
 
@@ -324,11 +324,11 @@ namespace wpfSBIFS.ViewModel
                 return;
             }
             GroupDto gDto = new GroupDto { GroupID = Group.GroupID };
-            EmailDto eDto = new EmailDto { Email = owner.Email };
+            UserDto uDto = new UserDto { UserID = owner.UserID };
             IJson data = new GroupUserDto
             {
                 GroupRequest = gDto,
-                UserRequest = eDto,
+                UserRequest = uDto,
             };
 
             HttpResponseMessage response = await _http.Post(adminActivityUrl + url, data);
@@ -413,6 +413,15 @@ namespace wpfSBIFS.ViewModel
         private void ClosePopup()
         {
             PopupIsOpen = false;
+        }
+
+        private void MakeDescriptionsPretty()
+        {
+            foreach (Activity a in Activities)
+            {
+                if (a.Description.IndexOf('\n') != -1)
+                    a.Description = a.Description.Substring(0, (a.Description.IndexOf('\n')) - 1);
+            }
         }
     }
 }
