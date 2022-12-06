@@ -58,9 +58,14 @@
                     Style="{StaticResource base_button}"
                     Command="{Binding DataContext.EditActivity, RelativeSource={RelativeSource Mode=FindAncestor, AncestorType={x:Type ListBox}}}"
                     CommandParameter="{Binding}"
-                    Content="X"
                     Width="30"
-                    Margin="10, 2, 2, 2"/>
+                    Margin="10, 2, 2, 2"
+                    HorizontalContentAlignment="Center"
+                    VerticalContentAlignment="Center">
+                    <Image 
+                        Source="/Resources/edit.png"
+                        Margin="3.5"/>
+                </Button>
             </Grid>
         </DataTemplate>
 

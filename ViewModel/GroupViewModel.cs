@@ -250,7 +250,7 @@ namespace wpfSBIFS.ViewModel
 
             GroupDto gDto = new GroupDto { GroupID = Group.GroupID };
             EmailDto eDto = new EmailDto { Email = SearchEmail };
-            IJson data = new GroupUserDto
+            IJson data = new GroupEmailDto
             {
                 GroupRequest = gDto,
                 UserRequest = eDto,
@@ -286,11 +286,11 @@ namespace wpfSBIFS.ViewModel
             FeedbackLabel = "Loading...";
             string url = "RemoveParticipant";
             GroupDto gDto = new GroupDto { GroupID = Group.GroupID };
-            EmailDto eDto = new EmailDto { Email = (participantDtos.Where(u => u.UserID == ((User)parameter).UserID).First()).Email };
+            UserDto uDto = new UserDto { UserID = ((User)parameter).UserID };
             IJson data = new GroupUserDto
             {
                 GroupRequest = gDto,
-                UserRequest = eDto,
+                UserRequest = uDto,
             };
 
             HttpResponseMessage response = await _http.Put(baseUrl + url, data);
