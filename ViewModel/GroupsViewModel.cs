@@ -125,7 +125,7 @@ namespace wpfSBIFS.ViewModel
             }
 
             List<Group> received = await response.Content.ReadFromJsonAsync<List<Group>>();
-            if (received == null)
+            if (received == null || received.Count == 0)
             {
                 FeedbackLabel = "Search successful but user has no groups.";
                 return;
