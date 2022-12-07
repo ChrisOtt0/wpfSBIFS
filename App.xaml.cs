@@ -50,6 +50,7 @@ namespace wpfSBIFS
             container.RegisterType<IAccountViewModel, AccountViewModel>();
             container.RegisterType<IGroupsViewModel, GroupsViewModel>();
             container.RegisterType<IGroupViewModel, GroupViewModel>();
+            container.RegisterType<IActivityViewModel, ActivityViewModel>();
         }
     }
 }

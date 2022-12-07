@@ -354,5 +354,15 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
+    <!-- Activity Description TextBox -->
+    <Style TargetType="TextBox" x:Key="activity_description">
+        <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
+        <Setter Property="Foreground" Value="{StaticResource fg}"/>
+        <Setter Property="FontFamily" Value="Droid Sans"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
+    </Style>
 </ResourceDictionary>

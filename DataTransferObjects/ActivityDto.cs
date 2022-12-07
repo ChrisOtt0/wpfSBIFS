@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace wpfSBIFS.DataTransferObjects
 {
-    public class GroupUserDto : IJson
+    public class ActivityDto : IJson
     {
-        public GroupDto GroupRequest { get; set; } = new GroupDto();
-        public UserDto UserRequest { get; set; } = new UserDto();
+        public int ActivityID { get; set; }
     }
 }
