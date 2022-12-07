@@ -1,0 +1,160 @@
+﻿<UserControl x:Class="wpfSBIFS.View.AccountView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:wpfSBIFS.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="700">
+    <Grid Style="{StaticResource main_grid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="2*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="3*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Label
+            Style="{StaticResource form_header1}"
+            Content="Account Settings"
+            Grid.Row="0"/>
+
+        <Grid
+            Grid.Row="1">
+            
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <!-- Name Section -->
+            <Label
+                Style="{StaticResource form_label}"
+                Content="Name:"
+                Grid.Row="0"
+                Grid.Column="1"/>
+
+            <TextBox
+                Style="{StaticResource form_textbox}"
+                Grid.Row="0"
+                Grid.Column="2"
+                Text="{Binding Name}"/>
+            
+            <!-- Email Section -->
+            <Label
+                Style="{StaticResource form_label}"
+                Content="Email:"
+                Grid.Row="1"
+                Grid.Column="1"/>
+
+            <TextBox
+                Style="{StaticResource form_textbox}"
+                Grid.Row="1"
+                Grid.Column="2"
+                Text="{Binding Email}"/>
+
+            <StackPanel
+                Orientation="Horizontal"
+                Grid.Row="2"
+                Grid.Column="2"
+                HorizontalAlignment="Right">
+                <!-- Save Changes Part -->
+                <Label
+                    Style="{StaticResource form_label}"
+                    VerticalAlignment="Center"
+                    FontSize="12"
+                    Content="{Binding UserFeedback}"/>
+                <Button
+                    Style="{StaticResource form_button}"
+                    Content="Save Changes"
+                    Margin="0, 0, 125, 0"
+                    Command="{Binding SaveChanges}"/>
+            </StackPanel>
+        </Grid>
+
+        <Label
+            Style="{StaticResource form_header2}"
+            Content="Password Settings"
+            Grid.Row="2"/>
+
+        <Grid
+            Grid.Row="3">
+
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="0.2*"/>
+                <ColumnDefinition Width="0.8*"/>
+                <ColumnDefinition Width="2.5*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Old Password -->
+            <Label
+                Style="{StaticResource form_label}"
+                Content="Old Password:"
+                Grid.Row="0"
+                Grid.Column="1"/>
+
+            <PasswordBox
+                Style="{StaticResource form_passwordbox}"
+                x:Name="oldPassword"
+                Grid.Row="0"
+                Grid.Column="2"/>
+
+            <!-- New Password -->
+            <Label
+                Style="{StaticResource form_label}"
+                Content="New Password:"
+                Grid.Row="1"
+                Grid.Column="1"/>
+
+            <PasswordBox
+                Style="{StaticResource form_passwordbox}"
+                x:Name="newPassword"
+                Grid.Row="1"
+                Grid.Column="2"/>
+
+            <!-- New Password Again -->
+            <Label
+                Style="{StaticResource form_label}"
+                Content="Confirm:"
+                Grid.Row="2"
+                Grid.Column="1"/>
+
+            <PasswordBox
+                Style="{StaticResource form_passwordbox}"
+                x:Name="newPasswordAgain"
+                Grid.Row="2"
+                Grid.Column="2"/>
+
+            <StackPanel
+                Orientation="Horizontal"
+                Grid.Row="3"
+                Grid.Column="2"
+                HorizontalAlignment="Right">
+                <!-- Save Password Changes -->
+                <Label
+                    Style="{StaticResource form_label}"
+                    Content="{Binding PasswordFeedback}"/>
+                <Button
+                    Style="{StaticResource form_button}"
+                    Content="Update Password"
+                    Grid.Row="3"
+                    Grid.Column="1"
+                    Margin="0, 0, 125, 0"
+                    Command="{Binding UpdatePassword}"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

@@ -17,24 +17,19 @@ using wpfSBIFS.ViewModel;
 namespace wpfSBIFS.View
 {
     /// <summary>
-    /// Interaction logic for GroupView.xaml
+    /// Interaction logic for NavMenuView.xaml
     /// </summary>
-    public partial class GroupView : UserControl
+    public partial class NavMenuView : UserControl
     {
-        private readonly IGroupViewModel _viewModel;
+        private readonly INavMenuViewModel _viewModel;
 
-        public GroupView(IGroupViewModel viewModel)
+        public NavMenuView(INavMenuViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
+            _viewModel.NavMenuPanel = this.navMenuPanel;
             this.DataContext = _viewModel;
-            _viewModel.View = this;
-            _viewModel.OnInit();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _viewModel.SearchEmailChanged();
+            _viewModel.SetHome();
         }
     }
 }

@@ -1,0 +1,136 @@
+﻿<UserControl x:Class="wpfSBIFS.View.ActivityView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:wpfSBIFS.View"
+             mc:Ignorable="d" 
+             d:DesignHeight="600" d:DesignWidth="700">
+    <UserControl.Resources>
+        <DataTemplate x:Key="ParticipantsList">
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Center">
+                <Label
+                    Grid.Column="0"
+                    Style="{StaticResource login_label}"
+                    Content="{Binding Path=Name}"/>
+                <CheckBox
+                    Grid.Column="1"
+                    IsChecked="{Binding Path=IsResponsible}"
+                    HorizontalAlignment="Center"
+                    VerticalAlignment="Center"/>
+            </StackPanel>
+        </DataTemplate>
+    </UserControl.Resources>
+    <Grid
+        Style="{StaticResource main_grid}">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel
+            Grid.Row="0"
+            Orientation="Horizontal">
+            <Label
+                Style="{StaticResource form_header1}"
+                Content="Activity: "
+                Margin="50, 10, 0, 0"/>
+        </StackPanel>
+
+        <Grid
+            Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            
+            <!-- Description and Responsible parties -->
+            <Grid
+                Grid.Row="0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                
+                <!-- Description -->
+                <TextBox
+                    Grid.Column="0"
+                    Style="{StaticResource activity_description}"
+                    Margin="20"
+                    Text="{Binding ActivityDescription}"
+                    TextWrapping="Wrap"/>
+                
+                <!-- Responsible parties -->
+                <Grid
+                    Grid.Column="1"
+                    Margin="20">
+                    <ListBox
+                        Style="{StaticResource Default}"
+                        ItemTemplate="{StaticResource ParticipantsList}"
+                        ItemsSource="{Binding ResponsibleParticipants}"
+                        HorizontalAlignment="Stretch"
+                        d:ItemsSource="{d:SampleData ItemCount=5}"/>
+                </Grid>
+            </Grid>
+            
+            <!-- Amount -->
+            <StackPanel 
+                Grid.Row="1"
+                Orientation="Horizontal"
+                HorizontalAlignment="Left">
+                <Label
+                    Style="{StaticResource form_label}"
+                    Content="Amount: "
+                    Margin="25, 5, 5, 5"/>
+                <TextBox
+                    x:Name="amountTextBox"
+                    Style="{StaticResource form_textbox}"
+                    Width="100"
+                    Margin="5, 10"
+                    Text="{Binding Amount}"
+                    HorizontalContentAlignment="Right"
+                    PreviewTextInput="TextBox_PreviewTextInput"/>
+            </StackPanel>
+            
+            <!-- Buttons -->
+            <StackPanel
+                Orientation="Horizontal"
+                HorizontalAlignment="Center"
+                Grid.Row="2">
+                <Button
+                    Style="{StaticResource form_button}"
+                    Content="Save"
+                    Width="75"
+                    Margin="15, 10"
+                    Command="{Binding Save}"/>
+                <Button
+                    Style="{StaticResource form_button}"
+                    Content="Cancel"
+                    Width="75"
+                    Margin="15, 10"
+                    Command="{Binding Cancel}"/>
+                <Button
+                    Style="{StaticResource danger_button}"
+                    Content="Delete"
+                    Width="75"
+                    Margin="15, 10"
+                    Command="{Binding Delete}"/>
+            </StackPanel>
+            
+            <!-- FeedbackLabel -->
+            <StackPanel
+                Grid.Row="3"
+                Orientation="Horizontal"
+                HorizontalAlignment="Center">
+                <Label
+                    Style="{StaticResource login_feedback_label}"
+                    Content="{Binding FeedbackLabel}"
+                    Margin="50, 5, 50, 25"/>
+            </StackPanel>
+        </Grid>
+    </Grid>
+</UserControl>

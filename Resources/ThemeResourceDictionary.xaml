@@ -5,17 +5,30 @@
     <SolidColorBrush x:Key="bg" Color="#d9d9d9"/>
     <SolidColorBrush x:Key="txt_bg" Color="#e6e6e6"/>
     <SolidColorBrush x:Key="border_bg" Color="#e6e6e6"/>
+    <SolidColorBrush x:Key="bg_secondary" Color="#bfbfbf"/>
+    <SolidColorBrush x:Key="text_bg_secondary" Color="#bfbfbf"/>
+    <SolidColorBrush x:Key="border_bg_secondary" Color="#bfbfbf"/>
     <SolidColorBrush x:Key="fg" Color="#3d3d3d"/>
     <SolidColorBrush x:Key="clicked" Color="#f7591f"/>
+    <SolidColorBrush x:Key="danger" Color="#b30000"/>
     <Color x:Key="bg_color">#d9d9d9</Color>
     <Color x:Key="txt_bg_color">#e6e6e6</Color>
     <Color x:Key="border_bg_color">#e6e6e6</Color>
+    <Color x:Key="bg_secondary_color">#bfbfbf</Color>
+    <Color x:Key="text_bg_secondary_color">#bfbfbf</Color>
+    <Color x:Key="border_bg_secondary_color">#bfbfbf</Color>
     <Color x:Key="fg_color">#3D3D3D</Color>
     <Color x:Key="clicked_button">#f7591f</Color>
+    <Color x:Key="danger_color">#b30000</Color>
 
     <!-- Main grids -->
     <Style TargetType="Grid" x:Key="main_grid">
         <Setter Property="Background" Value="{StaticResource bg}"/>
+    </Style>
+
+    <!-- Nav grid -->
+    <Style TargetType="Grid" x:Key="nav_grid">
+        <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
     </Style>
 
     <!-- Border for content container -->
@@ -30,7 +43,9 @@
         <Setter Property="HorizontalContentAlignment" Value="Center"/>
         <Setter Property="VerticalAlignment" Value="Center"/>
         <Setter Property="HorizontalAlignment" Value="Center"/>
-        <Setter Property="Padding" Value="25, 6"/>
+        <Setter Property="Height" Value="26"/>
+        <Setter Property="Width" Value="100"/>
+        <!--<Setter Property="Padding" Value="25, 6"/>-->
         <Setter Property="Foreground" Value="{StaticResource fg}"/>
         <Setter Property="FontFamily" Value="Droid Sans"/>
         <Setter Property="FontSize" Value="12"/>
@@ -135,7 +150,7 @@
     </Style>
 
     <!-- Login Passwordbox -->
-    <Style TargetType="PasswordBox">
+    <Style TargetType="PasswordBox" x:Key="login_passwordbox">
         <Setter Property="VerticalContentAlignment" Value="Bottom"/>
         <Setter Property="Padding" Value="2, 0, 2, 0"/>
         <Setter Property="Margin" Value="0, 10, 20, 10"/>
@@ -176,5 +191,178 @@
                 </ControlTemplate>
             </Setter.Value>
         </Setter>
+    </Style>
+    
+    <!-- Form Header1 -->
+    <Style TargetType="Label" x:Key="form_header1" BasedOn="{StaticResource login_label}">
+        <Setter Property="Margin" Value="50, 10"/>
+        <Setter Property="FontSize" Value="28"/>
+        <Setter Property="FontWeight" Value="Bold"/>
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+    </Style>
+    
+    <!-- Form Header2 -->
+    <Style TargetType="Label" x:Key="form_header2" BasedOn="{StaticResource form_header1}">
+        <Setter Property="FontSize" Value="22"/>
+        <Setter Property="FontWeight" Value="DemiBold"/>
+    </Style>
+    
+    <!-- Form Label -->
+    <Style TargetType="Label" x:Key="form_label" BasedOn="{StaticResource login_label}">
+        <Setter Property="VerticalAlignment" Value="Bottom"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="Margin" Value="25,5, 10, 5"/>
+    </Style>
+    
+    <!-- Form Textbox -->
+    <Style TargetType="TextBox" x:Key="form_textbox" BasedOn="{StaticResource login_textbox}">
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="20, 10, 20, 10"/>
+    </Style>
+    
+    <!-- Form PasswordBox -->
+    <Style TargetType="PasswordBox" x:Key="form_passwordbox" BasedOn="{StaticResource login_passwordbox}">
+        <Setter Property="Width" Value="400"/>
+        <Setter Property="HorizontalAlignment" Value="Left"/>
+        <Setter Property="Margin" Value="20, 10, 20, 10"/>
+    </Style>
+
+    <!-- Form button -->
+    <Style TargetType="Button" BasedOn="{StaticResource base_button}" x:Key="form_button">
+        <Setter Property="Width" Value="120"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                            x:Name="base_button_border"
+                            CornerRadius="8" 
+                            Background="{StaticResource bg_secondary}" 
+                            BorderBrush="{StaticResource bg_secondary}"
+                            BorderThickness="1,1,1,1" >
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="Center"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Base ListBox -->
+    <Style TargetType="ListBox" x:Key="Default">
+        <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
+    </Style>
+    
+    <!-- Editable Label -->
+    <Style x:Key="EditableLabelStyle" TargetType="{x:Type Label}" BasedOn="{StaticResource form_header1}">
+        <Setter Property="Foreground" Value="{StaticResource fg}"/>
+        <Setter Property="Background" Value="Transparent"/>
+        <Setter Property="Padding" Value="5"/>
+        <Setter Property="HorizontalContentAlignment" Value="Left"/>
+        <Setter Property="VerticalContentAlignment" Value="Top"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="{x:Type Label}">
+                    <Grid>
+                        <TextBox
+                            Name="textBox"
+                            Grid.ZIndex="1"
+                            Padding="3,5,0,0"
+                            Text="{Binding RelativeSource={RelativeSource AncestorType={x:Type Label}}, Path=Content, UpdateSourceTrigger=PropertyChanged}"
+                            Background="{StaticResource bg}"
+                            Foreground="{StaticResource fg}"
+                            BorderBrush="{StaticResource fg}"
+                            BorderThickness="0,0,0,2"
+                            Opacity="0"/>
+                        <Border 
+                            Name="textBoxBorder"
+                            BorderBrush="{StaticResource fg}"
+                            BorderThickness="{TemplateBinding BorderThickness}" 
+                            Background="{StaticResource bg}" 
+                            Padding="{TemplateBinding Padding}" 
+                            SnapsToDevicePixels="true">
+                            <ContentPresenter 
+                                HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" 
+                                RecognizesAccessKey="True" 
+                                SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" 
+                                VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                        </Border>
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="BorderBrush" Value="{StaticResource fg}"/>
+                            <Setter TargetName="textBox" Property="Opacity" Value="1"/>
+                        </Trigger>
+                        <Trigger Property="IsEnabled" Value="false">
+                            <Setter Property="BorderBrush" Value="{StaticResource fg}"/>
+                            <Setter Property="Foreground" Value="{StaticResource fg}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Danger button -->
+    <Style TargetType="Button" BasedOn="{StaticResource form_button}" x:Key="danger_button">
+        <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="Button">
+                    <Border 
+                            x:Name="base_button_border"
+                            CornerRadius="8" 
+                            Background="{StaticResource danger}" 
+                            BorderBrush="{StaticResource danger}"
+                            BorderThickness="1,1,1,1" >
+                        <ContentPresenter x:Name="contentPresenter" 
+                                      ContentTemplate="{TemplateBinding ContentTemplate}" 
+                                      Content="{TemplateBinding Content}" 
+                                      HorizontalAlignment="Center"
+                                      Margin="{TemplateBinding Padding}" 
+                                      VerticalAlignment="Center"/>
+                    </Border>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource fg}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                        <Trigger Property="IsPressed" Value="True">
+                            <Setter Property="Background" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="BorderBrush" TargetName="base_button_border" Value="{StaticResource clicked}"/>
+                            <Setter Property="Foreground" Value="{StaticResource bg_secondary}"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+    
+    <!-- Activity Description TextBox -->
+    <Style TargetType="TextBox" x:Key="activity_description">
+        <Setter Property="Background" Value="{StaticResource bg_secondary}"/>
+        <Setter Property="Foreground" Value="{StaticResource fg}"/>
+        <Setter Property="FontFamily" Value="Droid Sans"/>
+        <Setter Property="FontWeight" Value="Medium"/>
+        <Setter Property="FontSize" Value="14"/>
+        <Setter Property="BorderThickness" Value="0"/>
+        <Setter Property="AcceptsReturn" Value="True"/>
     </Style>
 </ResourceDictionary>

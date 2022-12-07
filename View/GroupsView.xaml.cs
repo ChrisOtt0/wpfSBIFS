@@ -19,22 +19,16 @@ namespace wpfSBIFS.View
     /// <summary>
     /// Interaction logic for GroupView.xaml
     /// </summary>
-    public partial class GroupView : UserControl
+    public partial class GroupsView : UserControl
     {
-        private readonly IGroupViewModel _viewModel;
+        private readonly IGroupsViewModel _viewModel;
 
-        public GroupView(IGroupViewModel viewModel)
+        public GroupsView(IGroupsViewModel viewModel)
         {
             InitializeComponent();
             _viewModel = viewModel;
             this.DataContext = _viewModel;
-            _viewModel.View = this;
             _viewModel.OnInit();
-        }
-
-        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _viewModel.SearchEmailChanged();
         }
     }
 }

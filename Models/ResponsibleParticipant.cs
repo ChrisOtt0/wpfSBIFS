@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace wpfSBIFS.DataTransferObjects
+namespace wpfSBIFS.Models
 {
-    public class UserDto : IJson
+    public class ResponsibleParticipant
     {
-        public int UserID { get; set; }
+        public User? Participant { get; set; }
+        public bool IsResponsible { get; set; }
         public string Name { get; set; } = string.Empty;
-        public string Email { get; set; } = string.Empty;
     }
 }
