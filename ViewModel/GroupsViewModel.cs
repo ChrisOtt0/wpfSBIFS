@@ -123,9 +123,16 @@ namespace wpfSBIFS.ViewModel
                     + ": " + await response.Content.ReadAsStringAsync();
                 return;
             }
+            if (!((int)response.StatusCode == 200))
+            {
+                _session.CurrentUser = Email;
+                Groups = new ObservableCollection<Group>();
+                FeedbackLabel = "User has no groups.";
+                return;
+            }
 
             List<Group> received = await response.Content.ReadFromJsonAsync<List<Group>>();
-            if (received == null)
+            if (received == null || received.Count == 0)
             {
                 FeedbackLabel = "Search successful but user has no groups.";
                 return;
