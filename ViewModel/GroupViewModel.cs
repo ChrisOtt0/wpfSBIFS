@@ -233,7 +233,11 @@ namespace wpfSBIFS.ViewModel
         {
             FeedbackLabel = "Calculating...";
             string url = "Calculate";
-            IJson data = new GroupDto { GroupID = Group.GroupID };
+            IJson data = new GroupCalculateDto
+            {
+                GroupID = Group.GroupID,
+                OutputForm = OutputForm.str,
+            };
 
             HttpResponseMessage response = await _http.Post(groupUrl + url, data);
             if (!response.IsSuccessStatusCode)
@@ -244,14 +248,14 @@ namespace wpfSBIFS.ViewModel
             }
 
             CalculationDto cal = await response.Content.ReadFromJsonAsync<CalculationDto>();
-            if (cal == null)
+            if (cal == null || cal.Str == null)
             {
                 FeedbackLabel = "Unknown error.";
                 return;
             }
 
             FeedbackLabel = string.Empty;
-            MessageBox.Show(cal.Results);
+            MessageBox.Show(cal.Str);
         }
 
         private async void AddParticipantCommand(object parameter)
