@@ -8,6 +8,8 @@ namespace wpfSBIFS.DataTransferObjects
 {
     public class CalculationDto : IJson
     {
-        public string Results { get; set; } = string.Empty;
+        public string? Str { get; set; }
+        public string? Html { get; set; }
+        public object? Pdf { get; set; }
     }
 }
